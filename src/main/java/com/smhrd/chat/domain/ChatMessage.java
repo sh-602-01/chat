@@ -18,14 +18,14 @@ public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false)
-    private Long msg_id;
+    @Column(name="msg_id",updatable = false)
+    private Long msgId;
 
     @Column(name="room_id")
     private int room_id;
 
-    @Column(name="sender_id")
-    private int sender_id;
+    //@Column(name="sender_id")
+    //private int sender_id;
 
     @Column(name="original_msg")
     private String original_msg;
@@ -38,5 +38,9 @@ public class ChatMessage {
     @CreatedDate //날짜생성
     @Column(name="created_at")
     private LocalDateTime createdAt; //게시물이 추가된 시간(자동)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
+    private User user;
 
 }

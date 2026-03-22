@@ -25,7 +25,7 @@ public class UserController {
     @PostMapping("/users")
     public String  signup(CreateUserRequest request){
         service.signup(request); //DB에 추가
-        return "redirect:/login";
+        return "redirect:/api/login";
     }
 
     //로그인

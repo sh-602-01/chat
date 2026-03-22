@@ -20,7 +20,6 @@ public class AddChatMessage {
     public ChatMessage toEntity(){
         return ChatMessage.builder()
                 .room_id(room_id)
-                .sender_id(sender_id)
                 .original_msg(original_msg)
                 .corrected_msg(corrected_msg)
                 .final_msg(final_msg)

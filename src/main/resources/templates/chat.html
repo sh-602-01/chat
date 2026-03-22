@@ -50,11 +50,30 @@
     <button onclick="send()">전송</button>
     <ul id="chat"></ul>
     <script>
+        function loadPreviousMessages() {
+            // 우리가 컨트롤러에 만든 데이터 요청 주소
+            fetch("/api/chat")
+                .then(response => response.json())
+                .then(messages => {
+                    // 가져온 10개의 메시지를 순회하며 화면에 출력
+                    // 만약 서버에서 최신순(역순)으로 왔다면 .reverse()로 순서를 맞출 수 있습니다.
+                    messages.reverse().forEach(msg => {
+                        showMessage(msg);
+                    });
+                })
+                .catch(error => console.error('데이터 로딩 실패:', error));
+        }
+
         let stompClient = null;
         function connect(){
             let socket = new SockJS("/chat");
             stompClient = Stomp.over(socket);
             stompClient.connect({}, function(frame){
+                console.log('Connected: ' + frame);
+
+                // 1. 소켓 연결 성공 후 기존 메시지 불러오기
+                loadPreviousMessages();
+
                 stompClient.subscribe("/topic/messages", function(message){
                     showMessage(JSON.parse(message.body));
                 })
@@ -72,27 +91,35 @@
             let li = document.createElement("li");
             let myId = document.getElementById("sender_id").value;
 
-            // 비교 로직: 서버에서 온 senderId와 내 아이디가 같은지 확인
-            if (message.senderId == myId) {
-                li.className = "my-msg"; // 내가 보낸 메시지 스타일
-                li.innerText = "(나) " + message.message;
+            // 1. 데이터 필드 매핑 (DTO와 실시간 메시지 공통 처리)
+            // 실시간 메시지는 .senderId, DB에서 온 데이터는 .sender_id 사용
+            let msgSenderId = message.senderId || message.sender_id;
+            // 실시간 메시지는 .message, DB에서 온 데이터는 .final_msg 사용
+            let msgContent = message.message || message.final_msg;
+            // 실시간 메시지는 .sender, DB 데이터는 이름이 없으므로 ID로 대체 (혹은 DTO에 이름 추가 필요)
+            // 🔥 핵심 수정
+            let msgSenderName = message.sender
+                || message.sender_name
+                || "사용자(" + msgSenderId + ")";
+
+            if (msgSenderId == myId) {
+                li.className = "my-msg";
+                li.innerText = "(나) " + msgContent;
             } else {
-                li.className = "other-msg"; // 남이 보낸 메시지 스타일
+                li.className = "other-msg";
 
-                // 1. 보낸 사람 이름 (span)
                 let span = document.createElement("span");
-                span.style.fontWeight = "bold"; // 이름 강조 스타일 예시
-                span.style.display = "block";   // 줄바꿈을 위해 block 설정
-                span.innerText = message.sender;
+                span.style.fontWeight = "bold";
+                span.style.display = "block";
+                span.innerText = msgSenderName;
 
-                // 2. 메시지 내용 (p)
                 let p = document.createElement("p");
-                p.style.margin = "5px 0 0 0";   // 이름과 간격 조절
-                p.innerText = message.message;
+                p.style.margin = "5px 0 0 0";
+                p.innerText = msgContent;
 
-                // 3. li에 조립
                 li.appendChild(span);
                 li.appendChild(p);
+
             }
 
             chat.appendChild(li);
@@ -100,6 +127,7 @@
             chat.scrollTop = chat.scrollHeight;
         }
         connect();
+        console.log(message);
     </script>
 </body>
 </html>
