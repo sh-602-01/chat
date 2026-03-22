@@ -8,16 +8,21 @@
     <style>
         #chat{
             padding:0;
+            max-width: 400px;
+            background:#f1f1f1;
+            height:100%;
+            display: flex;
+            flex-direction: column;
         }
         #chat li{
-            display:flex;
+            display:inline-flex;
             list-style: none;
         }
         #chat li span{
             font:12px;
         }
         .my-msg {
-            justify-content: flex-start;
+            justify-content: flex-end;
             text-align: right;
             color: blue;
             background-color: #e0f7fa;
@@ -28,7 +33,7 @@
         .other-msg {
             flex-direction: column;
             justify-content: flex-end;
-            align-items: flex-end;
+            align-items: flex-start;
             text-align: left;
             color: black;
             background-color: #f1f1f1;
