@@ -1,6 +1,5 @@
 package com.smhrd.chat.dto;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,8 +7,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ChatMessage {
-    private String sender;
-    private String message;
+public class CreateUserRequest {
+    private String username;
+    private String password;
 }
-// 주석달아서 커밋해볼께요

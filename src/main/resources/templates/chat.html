@@ -1,13 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <style>
+        #chat{
+            padding:0;
+        }
+        #chat li{
+            display:flex;
+            list-style: none;
+        }
+        #chat li span{
+            font:12px;
+        }
+        .my-msg {
+            justify-content: flex-start;
+            text-align: right;
+            color: blue;
+            background-color: #e0f7fa;
+            margin: 5px;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        .other-msg {
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: flex-end;
+            text-align: left;
+            color: black;
+            background-color: #f1f1f1;
+            margin: 5px;
+            padding: 5px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    <input id="name">
+    <input id="sender_id" th:value="${session.loginUser.id}" type="hidden">
+    <input id="name" th:value="${session.loginUser.username}">
     <input id="message">
     <button onclick="send()">전송</button>
     <ul id="chat"></ul>
@@ -23,15 +56,43 @@
             });
         }
         function send(){
+            let senderId = document.getElementById("sender_id").value;
             let name = document.getElementById("name").value;
             let message =document.getElementById("message").value;
-            stompClient.send("/app/sendMessage",{}, JSON.stringify({sender:name, message:message}));
+            stompClient.send("/app/sendMessage",{}, JSON.stringify({senderId : senderId, sender:name, message:message}));
+            document.getElementById("message").value = "";
         }
         function showMessage(message){
             let chat = document.getElementById("chat");
             let li = document.createElement("li");
-            li.innerText = message.sender + ":" + message.message;
+            let myId = document.getElementById("sender_id").value;
+
+            // 비교 로직: 서버에서 온 senderId와 내 아이디가 같은지 확인
+            if (message.senderId == myId) {
+                li.className = "my-msg"; // 내가 보낸 메시지 스타일
+                li.innerText = "(나) " + message.message;
+            } else {
+                li.className = "other-msg"; // 남이 보낸 메시지 스타일
+
+                // 1. 보낸 사람 이름 (span)
+                let span = document.createElement("span");
+                span.style.fontWeight = "bold"; // 이름 강조 스타일 예시
+                span.style.display = "block";   // 줄바꿈을 위해 block 설정
+                span.innerText = message.sender;
+
+                // 2. 메시지 내용 (p)
+                let p = document.createElement("p");
+                p.style.margin = "5px 0 0 0";   // 이름과 간격 조절
+                p.innerText = message.message;
+
+                // 3. li에 조립
+                li.appendChild(span);
+                li.appendChild(p);
+            }
+
             chat.appendChild(li);
+            // 메시지가 많아지면 자동으로 아래로 스크롤
+            chat.scrollTop = chat.scrollHeight;
         }
         connect();
     </script>
