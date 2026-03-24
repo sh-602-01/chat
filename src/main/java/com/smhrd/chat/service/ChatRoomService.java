@@ -35,7 +35,7 @@ public class ChatRoomService {
 //        return chatRoomRepository.findByCreator(user);
 //    }
 
-    public List<ChatRoomListResponse> getRoomList(User user){
+    public List<ChatRoomListResponse> getRoomList(){
         List<ChatRoom> rooms = chatRoomRepository.findAll();
         return rooms.stream()
                 .map(room -> new ChatRoomListResponse(
