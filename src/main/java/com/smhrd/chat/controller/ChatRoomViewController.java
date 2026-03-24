@@ -1,7 +1,6 @@
 package com.smhrd.chat.controller;
 
 import com.smhrd.chat.domain.User;
-import com.smhrd.chat.repository.UserRepository;
 import com.smhrd.chat.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,7 +13,6 @@ import jakarta.servlet.http.HttpSession;
 public class ChatRoomViewController {
 
     private final ChatRoomService service;
-    private final UserRepository userRepository;
 
     @GetMapping("/create_room")
     public String createRoomPage() {

@@ -31,9 +31,9 @@ public class ChatRoomService {
                 .orElseThrow(() -> new RuntimeException("방 없음"));
     }
     // 내가 만든 방만 보임
-    public List<ChatRoom> findMyRooms(User user){
-        return chatRoomRepository.findByCreator(user);
-    }
+//    public List<ChatRoom> findMyRooms(User user){
+//        return chatRoomRepository.findByCreator(user);
+//    }
 
     public List<ChatRoomListResponse> getRoomList(User user){
         List<ChatRoom> rooms = chatRoomRepository.findAll();
