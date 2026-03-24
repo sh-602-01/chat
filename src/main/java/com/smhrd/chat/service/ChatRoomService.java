@@ -41,8 +41,14 @@ public class ChatRoomService {
                 .map(room -> new ChatRoomListResponse(
                         room.getRoomId(),
                         room.getRoomName(),
-                        room.getLastMessage(),
-                        formatTime(room.getLastMessageTime()) // 🔥 포맷 적용
+                        room.getLastMessage() != null
+                                ? room.getLastMessage()
+                                : "채팅을 시작해보세요",
+                        formatTime(
+                                room.getLastMessageTime() != null
+                                ? room.getLastMessageTime()
+                                : room.getCreatedAt()   // 🔥 fallback
+                        ) // 🔥 포맷 적용
                 ))
                 .toList();
     }
