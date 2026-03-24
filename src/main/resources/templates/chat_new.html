@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>말랑말랑- AI 실시간 채팅 보정</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <style>
+        :root {
+            --main-blue: #2D5BFF;
+            --main-purple: #7C73FF;
+            --bg-dark: #333;
+            --bg-gray: #F7F8FA;
+            --border-light: #EEEEEE;
+            --text-dark: #333333;
+            --icon-bg: rgba(255, 255, 255, 0.1);
+            --success-green: #4CD964;
+            --disabled-gray: #D1D1D1;
+            --mallang-purple: #7C73FF;
+            --mallang-bg: #F8F9FF;
+            --ai-card-bg: #F4F3FF;
+            --text-main: #333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Pretendard", -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #F8F9FA;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* [화면 전환 설정] */
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* --- 1번 페이지: 메인 화면 --- */
+        .center-card {
+            width: 340px;
+            height: 600px;
+            background-color: var(--main-blue);
+            border-radius: 35px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo-area {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .simbol_img {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .start-btn {
+            background-color: white;
+            color: var(--main-blue);
+            border: none;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        /* --- 모달 스타일 (수정됨) --- */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-card {
+            background-color: white;
+            width: 300px;
+            /* 고정 너비로 축소 */
+            padding: 25px 20px;
+            /* 내부 여백 축소 */
+            border-radius: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .text-display {
+            background-color: #F5F7FF;
+            border: 1px solid #E0E4FF;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: left;
+            margin-bottom: 12px;
+            min-height: 70px;
+            /* 높이 축소 */
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-content: flex-start;
+        }
+
+        .tag-item {
+            background-color: var(--main-blue);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .tag-input-wrapper {
+            background: #F1F3F5;
+            border-radius: 12px;
+            padding: 0 15px;
+            margin-bottom: 15px;
+            border: 1px solid #DDD;
+        }
+
+        .tag-input-wrapper input {
+            width: 100%;
+            border: none;
+            background: none;
+            padding: 10px 0;
+            /* 입력창 높이 축소 */
+            outline: none;
+            font-size: 14px;
+        }
+
+        .btn-wrap {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 11px 0;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1.5px solid var(--main-blue);
+            color: var(--main-blue);
+        }
+
+        .btn-solid {
+            background: var(--main-blue);
+            color: white;
+        }
+
+        /* --- 2번 페이지: 채팅 화면 --- */
+        #chatPage {
+            background-color: var(--bg-dark);
+            gap: 40px;
+        }
+
+        .side-bar {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 720px;
+            padding-bottom: 20px;
+            gap: 15px;
+        }
+
+        .icon-circle {
+            width: 44px;
+            height: 44px;
+            background-color: var(--icon-bg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .icon-circle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .icon-circle svg {
+            width: 20px;
+            height: 20px;
+            stroke: #999;
+            fill: none;
+            stroke-width: 2;
+        }
+
+        .device-frame {
+            width: 360px;
+            height: 720px;
+            background: #F7F8FA;
+            border-radius: 40px;
+            border: 8px solid #222;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            padding: 50px 20px 15px;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #EEE;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .chat-area {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow-y: auto;
+            background: #F9F9FF;
+        }
+
+        .bubble {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .received {
+            background: #EEE;
+            align-self: flex-start;
+            border-top-left-radius: 2px;
+        }
+
+        .sent {
+            background: var(--main-purple);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+
+        .ai-card {
+            position: absolute;
+            bottom: 80px;
+            left: 15px;
+            right: 15px;
+            background: var(--ai-card-bg);
+            border: 2px dashed var(--mallang-purple);
+            border-radius: 20px;
+            padding: 15px;
+            margin: 5px 0;
+            align-self: flex-end;
+            animation: slideUp 0.3s ease;
+            display: none;
+        }
+
+        .ai-card-title {
+            color: var(--mallang-purple);
+            font-size: 12px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .ai-text {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.5;
+            display: block;
+        }
+
+        .close-x {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            color: #AAA;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .refine-card {
+            position: absolute;
+            bottom: 100px;
+            left: 15px;
+            right: 15px;
+            background: white;
+            border: 2px dashed var(--main-purple);
+            border-radius: 20px;
+            padding: 20px;
+            display: none;
+            z-index: 10;
+            animation: slideUp 0.3s;
+        }
+
+        .card-title {
+            color: var(--main-purple);
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .refined-text {
+            color: #333;
+            font-size: 14px;
+        }
+
+        .btn-v {
+            width: 40px;
+            height: 40px;
+            background: var(--main-purple);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .btn-v svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        .input-container {
+            background: white;
+            padding: 20px;
+            border-top: 1px solid #EEE;
+            display: flex;
+            gap: 12px;
+        }
+        /* 하단 입력바 */
+        .input-bar {
+            padding: 15px 20px;
+            background: white;
+            border-top: 1px solid #EEE;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .input-wrapper {
+            flex: 1;
+            background: #F1F1F1;
+            border-radius: 25px;
+            padding: 2px 18px;
+            display: flex;
+        }
+
+        .input-wrapper input {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 10px 0;
+            outline: none;
+        }
+
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--main-purple);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .send-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        /* --- 3번 페이지: 옵션 설정 화면 --- */
+        #settingsPage {
+            background-color: white;
+            flex-direction: row;
+        }
+
+        .sidebar {
+            width: 100%;
+            height: 100%;
+            padding: 60px 25px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .setting-group {
+            margin-bottom: 10px;
+        }
+
+        .setting-item {
+            background-color: #F1F1F1;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            user-select: none;
+        }
+
+        .setting-item.active {
+            background-color: #E0DEFF;
+        }
+
+        .toggle {
+            width: 34px;
+            height: 18px;
+            background-color: var(--disabled-gray);
+            border-radius: 10px;
+            position: relative;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background-color: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: 0.3s;
+        }
+
+        .setting-item.active .toggle {
+            background-color: var(--success-green);
+        }
+
+        .setting-item.active .toggle::after {
+            transform: translateX(16px);
+        }
+
+        .time-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #DDD;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 13px;
+        }
+
+        .time-input:disabled {
+            background-color: #F9F9F9;
+            opacity: 0.5;
+        }
+
+        .nav-icons {
+            margin-top: auto;
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
+            background: #F1F1F1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+        }
+
+        .icon-btn.active {
+            background: var(--main-purple);
+        }
+
+        .icon-btn.active svg {
+            stroke: white;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="external-side-nav">
+        <button class="ai-action-btn" title="설정" onclick="openModal()">
+            <svg viewBox="0 0 24 24">
+                <path
+                        d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.21.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z">
+                </path>
+            </svg>
+        </button>
+        <button class="ai-action-btn" title="검색">
+            <svg viewBox="0 0 24 24">
+                <path
+                        d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                </path>
+            </svg>
+        </button>
+    </div>
+    <div class="device-frame">
+        <input type="hidden" id="room_id" th:value="${roomId != null ? roomId : 1}">
+        <input type="hidden" id="sender_id" th:value="${session.loginUser.id}">
+        <input type="hidden"  id="user_id" th:value="${session.loginUser.userId}">
+        <header class="header">
+            <span class="user-name" th:text="${roomName}"></span>
+        </header>
+
+        <main class="chat-area" id="chat">
+
+        </main>
+
+        <div class="ai-card" id="refineCard" onclick="sendMsg()">
+            <span class="close-x" onclick="closeCard(event)">×</span>
+            <span class="ai-card-title">✨ 말랑말랑 AI 보정 제안</span>
+            <div class="ai-text" id="aiPreview">잠시만요, 곧 정리해서 보내드릴게요!</div>
+        </div>
+
+        <footer class="input-bar">
+            <div class="input-wrapper">
+                <input type="text" id="chatInput" placeholder="메시지를 입력하세요...">
+            </div>
+            <button class="btn-v" style="width:40px; height:40px;" onclick="openRefine()">
+                <svg viewBox="0 0 24 24">
+                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                </svg>
+            </button>
+        </footer>
+
+
+    </div>
+</body>
+<script src="/js/chat.js"></script>
+<script>
+
+    const aiPreview = document.getElementById('aiPreview');
+    const refineCard = document.getElementById('refineCard');
+    function openRefine() {
+        const val = chatInput.value.trim();
+        if (!val) return;
+        //const suffix = selectedTags.includes("부드럽게") ? " 😊" : "!";
+        aiPreview.innerText = `[보정됨]  ${val} `;
+        refineCard.style.display = 'block';
+    }
+    function closeCard(e){
+        e.stopPropagation();
+        refineCard.style.display = 'none';
+    }
+</script>
+</html>

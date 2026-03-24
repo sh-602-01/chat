@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>채팅방 생성</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="mb-4">
+        <h4>채팅방 개설</h4>
+
+        <div class="form-group">
+            <label>채팅방 이름</label>
+            <input type="text" id="roomName" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>방 타입</label>
+            <input type="text" id="roomType" class="form-control">
+        </div>
+
+        <button id="create-btn" class="btn btn-success">방 생성</button>
+    </div>
+</div>
+
+<script>
+    const createButton = document.getElementById('create-btn');
+
+    createButton.addEventListener('click', () => {
+
+        fetch('/api/rooms', { // ✅ URL 수정
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                roomName: document.getElementById('roomName').value, // ✅ camelCase
+                roomType: parseInt(document.getElementById('roomType').value), // 숫자 변환
+                //creatorId: 1 // 테스트용
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                alert('등록 완료 되었습니다.');
+                location.href = '/room_list';
+            });
+    });
+</script>
+
+</body>
+</html>
