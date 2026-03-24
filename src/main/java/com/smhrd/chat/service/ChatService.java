@@ -1,0 +1,53 @@
+package com.smhrd.chat.service;
+
+import com.smhrd.chat.domain.ChatMessage;
+import com.smhrd.chat.domain.ChatRoom;
+import com.smhrd.chat.domain.User;
+import com.smhrd.chat.dto.ChatMessageDto;
+import com.smhrd.chat.repository.ChatMessageRepository;
+import com.smhrd.chat.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+public class ChatService {
+
+    private final ChatMessageRepository chatMessageRepository;
+    private final UserRepository userRepository;
+    private final ChatRoomService chatRoomService;
+
+    public ChatMessage save(ChatMessageDto dto){
+        User user = userRepository.findById(dto.getSenderId())
+                .orElseThrow(() -> new RuntimeException("유저 없음"));
+
+        ChatRoom room = chatRoomService.findById(dto.getRoomId());
+
+        ChatMessage message = ChatMessage.builder()
+                .original_msg(dto.getMessage())
+                .corrected_msg(dto.getMessage())
+                .final_msg(dto.getMessage())
+                .explanation(dto.getExplanation())
+                .persona_id(dto.getPersonaId())
+                .user(user)
+                .chatRoom(room)
+                .build();
+
+        return chatMessageRepository.save(message);
+    }
+
+    public List<ChatMessage> findByRoom(Long roomId){
+        ChatRoom room = chatRoomService.findById(roomId);
+        return chatMessageRepository.findByChatRoomOrderByMsgIdDesc(room);
+    }
+
+    public List<ChatMessage> findRecent10(){
+        Pageable topTen = PageRequest.of(0, 10, Sort.by("msgId").descending());
+        return chatMessageRepository.findAll(topTen).getContent();
+    }
+}
