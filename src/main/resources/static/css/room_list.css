@@ -21,12 +21,30 @@
 
 .chat-text {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     gap: 4px;
     flex-grow: 1;
+    position: relative;
 }
 .chat-name {
     font-size: 16px;
     font-weight: 700;
     color: #000;
+}
+.chat-text p{
+    font-size: 12px;
+    color:#666666;
+}
+.chat-text a{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform: translateY(-50%);
+}
+.chat-text .date-time{
+    position:absolute;
+    top:2px;
+    right:10px;
+    font-size: 12px;
+    color:#666666;
 }

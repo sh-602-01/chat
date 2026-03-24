@@ -20,7 +20,9 @@
     box-sizing: border-box;
     font-family: "Pretendard", -apple-system, sans-serif;
 }
-
+a{
+    text-decoration: none
+}
 body {
     background-color: #F8F9FA;
     height: 100vh;

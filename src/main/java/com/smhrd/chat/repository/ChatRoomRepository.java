@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {
     List<ChatRoom> findByCreator(User creator);
+    List<ChatRoom> findByCreator_Id(Long id);
 }

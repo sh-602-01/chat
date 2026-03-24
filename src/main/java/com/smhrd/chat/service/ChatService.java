@@ -5,6 +5,7 @@ import com.smhrd.chat.domain.ChatRoom;
 import com.smhrd.chat.domain.User;
 import com.smhrd.chat.dto.ChatMessageDto;
 import com.smhrd.chat.repository.ChatMessageRepository;
+import com.smhrd.chat.repository.ChatRoomRepository;
 import com.smhrd.chat.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
     private final UserRepository userRepository;
     private final ChatRoomService chatRoomService;
+    private final ChatRoomRepository chatRoomRepository;
 
     public ChatMessage save(ChatMessageDto dto){
         User user = userRepository.findById(dto.getSenderId())
@@ -38,7 +40,11 @@ public class ChatService {
                 .chatRoom(room)
                 .build();
 
-        return chatMessageRepository.save(message);
+        ChatMessage saved = chatMessageRepository.save(message);
+        room.setLastMessage(saved.getFinal_msg()); // 또는 getOriginal_msg()
+        room.setLastMessageTime(saved.getCreatedAt());
+        chatRoomRepository.save(room);
+        return saved;
     }
 
     public List<ChatMessage> findByRoom(Long roomId){

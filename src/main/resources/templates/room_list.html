@@ -15,11 +15,12 @@
             <div class="chat-list-header">
                 <h4>채팅방 목록</h4>
             </div>
-            <div class="chat-content" th:each="room: ${rooms}">
-                <div class="chat-text">
+            <div class="chat-content" th:each="room:${rooms}">
+                <a class="chat-text" th:href="@{/chat/{id}(id=${room.roomId})}">
                     <span class="chat-name" th:text="${room.roomName}"></span>
-                    <a th:href="@{/chat/{id}(id=${room.roomId})}" class="btn btn-primary">입장하기</a>
-                </div>
+                    <p th:text="${room.lastMessage}"></p>
+                    <span class="date-time" th:text="${room.lastMessageTime}"></span>
+                </a>
             </div>
         </div>
     </div>

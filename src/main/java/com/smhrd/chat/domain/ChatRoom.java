@@ -31,4 +31,10 @@ public class ChatRoom {
     @CreatedDate //날짜생성
     @Column(name="created_at")
     private LocalDateTime createdAt; //게시물이 추가된 시간(자동)
+
+    @Column(name = "last_message")
+    private String lastMessage;
+
+    @Column(name = "last_message_time")
+    private LocalDateTime lastMessageTime;
 }

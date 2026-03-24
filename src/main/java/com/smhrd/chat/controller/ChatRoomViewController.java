@@ -27,7 +27,7 @@ public class ChatRoomViewController {
         if (loginUser == null) {
             throw new RuntimeException("로그인 필요");
         }
-        model.addAttribute("rooms", service.findAllRooms());
+        model.addAttribute("rooms", service.getRoomList(loginUser));
         return "room_list";
     }
 }
