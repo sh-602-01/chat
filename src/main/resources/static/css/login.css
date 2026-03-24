@@ -116,6 +116,20 @@ input::placeholder {
     transition: all 0.3s ease;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
+.submit-join-btn{
+    width: 100%;
+    background-color: #ffffff;
+    color: #2D5BFF;
+    border: none;
+    padding: 16px;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
 
 .submit-btn:hover {
     background-color: #f8f9fa;
@@ -201,6 +215,21 @@ input::placeholder {
     margin-bottom: 20px;
     text-align: center;
 }
+.join-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-align: center;
+    margin-top: -100px;
+}
+
+.join-subtitle {
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 20px;
+    text-align: center;
+}
 
 .divider {
     height: 1px;
@@ -250,4 +279,13 @@ input::placeholder {
 /* 호버 */
 .buttons a:hover {
     filter: brightness(0.95);
+}
+.join-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color:#fff;
+    height:50px;
+    text-decoration: none;
+    font-weight: bold;
 }

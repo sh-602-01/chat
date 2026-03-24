@@ -8,8 +8,8 @@
 <body>
 <div class="container" th:if="${session.loginUser == null}">
     <div class="center-card" th:if="${param.error}">
-        <div class="title">로그인 실패!</div>
-        <div class="subtitle">회원가입을 진행해 주세요!</div>
+        <div class="join-title">로그인 실패!</div>
+        <div class="join-subtitle">회원가입을 진행해 주세요!</div>
         <div class="buttons">
             <a href="/api/join" class="create">회원가입</a>
         </div>
@@ -32,8 +32,8 @@
 
             <button type="submit" class="submit-btn" id="loginBtn">
                 <span id="btnText">로그인</span>
-                <div id="spinner" class="loading-spinner"></div>
             </button>
+            <a href="/api/join" class="join-btn">회원가입</a>
         </form>
     </div>
 </div>

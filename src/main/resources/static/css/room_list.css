@@ -1,0 +1,32 @@
+/* 채팅 목록 영역 */
+.chat-list {
+    flex: 1;
+    overflow-y: auto;
+}
+.chat-list-header{
+    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+.chat-list-header h4{
+    font-size: 18px
+}
+.chat-content {
+    border-bottom: 1px solid #f0f0f0;
+    padding: 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-text {
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    flex-grow: 1;
+}
+.chat-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+}
