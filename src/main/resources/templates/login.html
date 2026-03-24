@@ -7,14 +7,17 @@
 </head>
 <body>
 <div class="container" th:if="${session.loginUser == null}">
-    <div class="center-card" id="loginCard">
+    <div class="center-card" th:if="${param.error}">
+        <div class="title">로그인 실패!</div>
+        <div class="subtitle">회원가입을 진행해 주세요!</div>
+        <div class="buttons">
+            <a href="/api/join" class="create">회원가입</a>
+        </div>
+    </div>
+    <div class="center-card" id="loginCard" th:unless="${param.error}">
         <div class="logo-area">
             <img src="/images/malrang.png" class="simbol_img" alt="로고">
             <div class="index-title">채팅 보정 서비스</div>
-        </div>
-        <div th:if="${param.error}">
-            <p style="color:red;">로그인 실패! 회원가입을 진행해주세요.</p>
-            <a href="/api/join" class="btn btn-success">회원가입</a>
         </div>
         <form action="/api/login_user" class="form-area" id="loginForm" method="post">
             <div class="input-group">
@@ -36,15 +39,7 @@
 </div>
 <div class="container" th:if="${session.loginUser != null}">
     <div class="phone">
-        <div class="card" th:if="${param.error}">
-            <div class="title">로그인 실패!</div>
-            <div class="subtitle">회원가입을 진행해 주세요!</div>
-            <div class="buttons">
-                <a href="/api/join" class="create">회원가입</a>
-            </div>
-        </div>
-        <div class="card" th:unless="${param.error}">
-
+        <div class="card">
             <div class="title" th:text="${session.loginUser.userName} + '님, 안녕하세요'"></div>
             <div class="subtitle">오늘도 기분 좋은 대화를 시작해보세요</div>
             <div class="divider"></div>
