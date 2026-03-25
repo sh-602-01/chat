@@ -38,7 +38,7 @@ public class ChatController {
         String roomName = room.getRoomName();
         model.addAttribute("roomId", roomId);
         model.addAttribute("roomName", roomName);
-        return "chat_new"; // chat.html 뷰를 찾아감
+        return "chat_new";
     }
 
     // 2. [데이터 조회용] JS의 fetch가 호출하는 곳 (JSON 데이터를 줌)
