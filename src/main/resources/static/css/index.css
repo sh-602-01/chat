@@ -1,0 +1,193 @@
+    /* 1. 기본 설정 및 Pretendard 폰트 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Pretendard", -apple-system, sans-serif;
+}
+
+body {
+    background-color: #F8F9FA;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 2. 메인 블루 카드 (기존 크기 340px 유지) */
+.center-card {
+    width: 360px;
+    height: 720px;
+    background-color: #2D5BFF;
+    border-radius: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.05);
+    z-index: 1;
+}
+
+.logo-area {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.simbol_img {
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 15px;
+    font-weight: 400;
+    opacity: 0.9;
+}
+
+.start-btn {
+    background-color: white;
+    color: #2D5BFF;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* 3. 태그 입력 모달 (입력 칸을 넓게 수정) */
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+}
+
+/* [수정] 모달창 전체 너비를 420px로 넓힘 */
+.modal-card {
+    background-color: white;
+    width: 420px;
+    padding: 35px 30px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal-info {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #222;
+}
+
+/* [핵심 수정] 태그가 표시되는 영역 - 좌우 패딩을 줄여 더 넓게 사용 */
+.text-display {
+    background-color: #F5F7FF;
+    border: 1px solid #E0E4FF;
+    border-radius: 12px;
+    padding: 15px 8px;
+    /* 좌우 여백을 줄여 칸을 넓힘 */
+    text-align: left;
+    margin-bottom: 15px;
+    min-height: 90px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-content: flex-start;
+}
+
+.tag-item {
+    background-color: #2D5BFF;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* 입력란 */
+.tag-input-wrapper {
+    background: #F1F3F5;
+    border-radius: 12px;
+    padding: 0 15px;
+    margin-bottom: 20px;
+    border: 1px solid #DDD;
+}
+
+.tag-input-wrapper input {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 12px 0;
+    outline: none;
+    font-size: 14px;
+}
+
+.btn-wrap {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    flex: 1;
+    padding: 13px 0;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+}
+
+.btn-outline {
+    background: white;
+    border: 1.5px solid #2D5BFF;
+    color: #2D5BFF;
+}
+
+.btn-solid {
+    background: #2D5BFF;
+    color: white;
+}
+
+/* 4. 좌측 하단 아이콘 */
+.left-icons {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
