@@ -18,7 +18,6 @@
     <div class="center-card" id="loginCard" th:unless="${param.error}">
         <div class="logo-area">
             <img src="/images/malrang.png" class="simbol_img" alt="로고">
-            <div class="index-title">채팅 보정 서비스</div>
         </div>
         <form action="/api/login_user" class="form-area" id="loginForm" method="post">
             <div class="input-group">
@@ -46,7 +45,7 @@
             <div class="divider"></div>
             <div class="buttons">
                 <a href="/room_list" class="chat">채팅하기</a>
-                <a href="/create_room" class="create">채팅방개설하기</a>
+
                 <a href="/api/logout" class="logout">로그아웃</a>
             </div>
         </div>

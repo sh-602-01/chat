@@ -22,9 +22,10 @@ public class ChatRoomViewController {
     @GetMapping("/room_list")
     public String roomList(Model model, HttpSession session) {
         User loginUser = (User) session.getAttribute("loginUser");
-        if (loginUser == null) {
-            throw new RuntimeException("로그인 필요");
-        }
+//        if (loginUser == null) {
+//            throw new RuntimeException("로그인 필요");
+//        }
+        model.addAttribute("loginUser", loginUser);
         model.addAttribute("rooms", service.getRoomList());
         return "room_list";
     }

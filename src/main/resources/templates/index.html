@@ -11,18 +11,16 @@
     <div class="center-card">
         <div class="logo-area">
             <img src="/images/malrang.png" class="simbol_img" alt="말랑로고">
-            <div class="title">채팅 보정 서비스</div>
         </div>
-        <button class="start-btn" onclick="goToLogin()">시작하기</button>
+        <button class="start-btn" onclick="goToLogin()">회원 채팅 시작</button>
+        <button class="start-guest-btn" onclick="openModal()">비회원 채팅 시작</button>
     </div>
 
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-card">
             <div class="modal-info">원하는 보정 키워드를 입력해 주세요.</div>
-
             <div class="text-display" id="tagDisplay">
-                    <span style="color: #AAA; font-size: 12px; width:100%; text-align:center; margin-top:20px;">키워드를 입력해
-                        주세요</span>
+                <span>키워드를 입력한 후 띄어쓰기 해주세요.</span>
             </div>
 
             <div class="tag-input-wrapper">
@@ -57,8 +55,11 @@
     }
 
     function handleTagInput(event) {
-        if (event.key === 'Enter') {
+        if (event.key === ' ' || event.code === 'Space') {
+            event.preventDefault(); // 스페이스 입력 막기
+
             const value = tagInputField.value.trim();
+
             if (value && !selectedTags.includes(value)) {
                 if (selectedTags.length >= 5) {
                     alert("태그는 최대 5개까지 입력 가능합니다.");
@@ -67,6 +68,7 @@
                 selectedTags.push(value);
                 renderTags();
             }
+
             tagInputField.value = '';
         }
     }
@@ -79,8 +81,9 @@
         tagDisplay.innerHTML = '';
         selectedTags.forEach((tag, index) => {
             const tagEl = document.createElement('div');
+            tagEl.id = 'tag' + (index + 1);
             tagEl.className = 'tag-item';
-            tagEl.innerText = tag;
+            tagEl.innerText = '#'+ tag;
             tagEl.onclick = () => {
                 selectedTags.splice(index, 1);
                 renderTags();
@@ -94,6 +97,11 @@
             alert("최소 한 개의 키워드를 입력해 주세요.");
             return;
         }
+        // const tags = [
+        //     tag1.value, tag2.value, tag3.value, tag4.value, tag5.value
+        // ].filter(v => v);
+        localStorage.setItem("hashtags", JSON.stringify(selectedTags));
+        location.href = "/room_list";
         closeModal();
     }
 </script>

@@ -38,7 +38,7 @@ body {
 }
 
 .simbol_img {
-    width: 80px;
+    width: 120px;
     margin-bottom: 10px;
 }
 
@@ -185,6 +185,7 @@ input::placeholder {
     border-radius: 35px;
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
     padding: 20px;
+    position: relative;
 }
 
 /* 카드 */
@@ -199,7 +200,6 @@ input::placeholder {
     padding: 20px;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
 }
-
 /* 텍스트 */
 .title {
     font-size: 20px;
@@ -207,7 +207,6 @@ input::placeholder {
     color: #374151;
     margin-bottom: 10px;
     text-align: center;
-    margin-top: -100px;
 }
 
 .subtitle {
@@ -235,7 +234,7 @@ input::placeholder {
 .divider {
     height: 1px;
     background: #f1f5f9;
-    margin-bottom: 25px;
+    margin-bottom: 100px;
 }
 
 /* 버튼 그룹 */
@@ -263,8 +262,8 @@ input::placeholder {
 
 /* 개별 버튼 스타일 */
 .logout {
-    background: #fecaca;
-    color: #b91c1c;
+    background: #fff;
+    color: #000;
 }
 
 .chat {
@@ -272,9 +271,14 @@ input::placeholder {
     color: #166534;
 }
 
-.create {
-    background: #e0e7ff;
+.create_btn {
+    position: absolute;
+    right: 40px;
+    top: 40px;
     color: #3730a3;
+}
+.create_btn img {
+    width: 25px;
 }
 
 /* 호버 */

@@ -1,11 +1,21 @@
 /* 채팅 목록 영역 */
+.card-list-wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border-radius: 25px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+}
 .chat-list {
     flex: 1;
     overflow-y: auto;
 }
 .chat-list-header{
-    text-align: center;
-    padding: 15px;
+    text-align: left;
+    padding:25px;
     border-bottom: 1px solid #f0f0f0;
 }
 .chat-list-header h4{
@@ -13,7 +23,7 @@
 }
 .chat-content {
     border-bottom: 1px solid #f0f0f0;
-    padding: 20px 10px;
+    padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -52,4 +62,36 @@
     right:10px;
     font-size: 12px;
     color:#666666;
+}
+/* 3. 태그 입력 모달 (입력 칸을 넓게 수정) */
+.room-modal-overlay {
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom : 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+}
+
+.room-modal-card {
+    background-color: white;
+    padding: 35px 30px;
+    border-radius: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width:85%;
+}
+
+.room-modal-info {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #222;
+
 }

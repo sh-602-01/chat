@@ -1,10 +1,12 @@
 package com.smhrd.chat.controller;
 
 import com.smhrd.chat.domain.ChatRoom;
+import com.smhrd.chat.domain.User;
 import com.smhrd.chat.dto.ChatMessageDto;
 import com.smhrd.chat.dto.ChatMsgResponse;
 import com.smhrd.chat.service.ChatRoomService;
 import com.smhrd.chat.service.ChatService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -32,12 +34,24 @@ public class ChatController {
     }
 
     // 1. [페이지 이동용] 사용자가 채팅방에 처음 들어갈 때 (HTML을 보여줌)
-    @GetMapping("/chat/{roomId}") // 중복을 피하기 위해 경로를 살짝 변경
-    public String chatPage(@PathVariable Long roomId, Model model) {
-        ChatRoom room = chatRoomService.findById(roomId); // DB 조회
-        String roomName = room.getRoomName();
+    @GetMapping("/chat/{roomId}")
+    public String chatPage(@PathVariable Long roomId, Model model, HttpSession session) {
+
+        ChatRoom room = chatRoomService.findById(roomId);
+
+        Object loginUser = session.getAttribute("loginUser");
+
+        String userId;
+        if (loginUser != null) {
+            userId = ((User) loginUser).getId().toString();
+        } else {
+            userId = "guest_" + java.util.UUID.randomUUID().toString().substring(0, 8);
+        }
+
         model.addAttribute("roomId", roomId);
-        model.addAttribute("roomName", roomName);
+        model.addAttribute("roomName", room.getRoomName());
+        model.addAttribute("userId", userId);
+
         return "chat_new";
     }
 

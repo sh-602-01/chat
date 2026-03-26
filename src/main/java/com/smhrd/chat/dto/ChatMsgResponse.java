@@ -12,8 +12,16 @@ public class ChatMsgResponse {
 
     public ChatMsgResponse(ChatMessage message){
         this.msgId = message.getMsgId();
-        this.sender_id = message.getUser().getId();        // 🔥 변경
-        this.sender_name = message.getUser().getUserId(); // 🔥 핵심
+
+        if (message.getUser() != null) {
+            this.sender_id = message.getUser().getId();
+            this.sender_name = message.getUser().getUserId();
+        } else {
+            // 🔥 guest 처리
+            this.sender_id = -1L; // 또는 null
+            this.sender_name = "guest";
+        }
+
         this.final_msg = message.getFinal_msg();
     }
 }

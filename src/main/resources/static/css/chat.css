@@ -13,16 +13,6 @@
     --ai-card-bg: #F4F3FF;
     --text-main: #333;
 }
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Pretendard", -apple-system, sans-serif;
-}
-a{
-    text-decoration: none
-}
 body {
     background-color: #F8F9FA;
     height: 100vh;
@@ -235,7 +225,7 @@ body {
 }
 
 .header {
-    padding: 50px 20px 15px;
+    padding: 30px 20px 15px;
     background: white;
     display: flex;
     justify-content: center;

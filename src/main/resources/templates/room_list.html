@@ -9,10 +9,13 @@
 </head>
 <body>
 <div class="phone">
-    <div class="card">
-
+    <input type="hidden" id="user_id" th:value="${loginUser}">
+    <div class="card-list-wrap">
         <!-- 채팅방 리스트 -->
         <div class="chat-list">
+            <a href="/create_room" class="create_btn" th:if="${loginUser != null}">
+                <img src="/images/icon_plus.png">
+            </a>
             <div class="chat-list-header">
                 <h4>채팅방 목록</h4>
             </div>
@@ -25,6 +28,27 @@
             </div>
         </div>
     </div>
+    <div class="room-modal-overlay" id="modalOverlay" th:if="${loginUser == null}">
+        <div class="room-modal-card">
+            <div class="room-modal-info" id="text"></div>
+            <div class="buttons">
+                <button class="create" onclick="closeModal()">알겠어요.</button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
+<script>
+    const tags = JSON.parse(localStorage.getItem("hashtags")) || [];
+    console.log(tags);
+    document.getElementById("text").innerHTML =
+         "\""+ tags.join(", ") + "\"" +  " <br> 로 채팅을 시작합니다...";
+
+    const userId = document.getElementById("user_id").value;
+    const modal = document.getElementById('modalOverlay');
+
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+</script>
 </html>

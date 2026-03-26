@@ -26,16 +26,13 @@
         </button>
     </div>
     <div class="device-frame">
-        <input type="hidden" id="room_id" th:value="${roomId != null ? roomId : 1}">
-        <input type="hidden" id="sender_id" th:value="${session.loginUser.id}">
-        <input type="hidden"  id="user_id" th:value="${session.loginUser.userId}">
+        <input type="hidden" id="room_id" th:value="${roomId}">
+        <input type="hidden" id="user_id" th:value="${userId}">
         <header class="header">
             <span class="user-name" th:text="${roomName}"></span>
         </header>
 
-        <main class="chat-area" id="chat">
-
-        </main>
+        <main class="chat-area" id="chat"></main>
 
         <div class="ai-card" id="refineCard" onclick="sendMsg()">
             <span class="close-x" onclick="closeCard(event)">×</span>
@@ -59,16 +56,17 @@
 </body>
 <script src="/js/chat.js"></script>
 <script>
-
     const aiPreview = document.getElementById('aiPreview');
     const refineCard = document.getElementById('refineCard');
+
     function openRefine() {
         const val = chatInput.value.trim();
         if (!val) return;
-        //const suffix = selectedTags.includes("부드럽게") ? " 😊" : "!";
-        aiPreview.innerText = `[보정됨]  ${val} `;
+
+        aiPreview.innerText = `[보정됨] ${val}`;
         refineCard.style.display = 'block';
     }
+
     function closeCard(e){
         e.stopPropagation();
         refineCard.style.display = 'none';

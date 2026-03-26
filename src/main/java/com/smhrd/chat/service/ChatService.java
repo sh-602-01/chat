@@ -25,10 +25,14 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
 
     public ChatMessage save(ChatMessageDto dto){
-        User user = userRepository.findById(dto.getSenderId())
-                .orElseThrow(() -> new RuntimeException("유저 없음"));
 
         ChatRoom room = chatRoomService.findById(dto.getRoomId());
+        User user = null;
+
+        if (dto.getSenderId() != null && !dto.getSenderId().startsWith("guest_")) {
+            user = userRepository.findById(Long.parseLong(dto.getSenderId()))
+                    .orElse(null);
+        }
 
         ChatMessage message = ChatMessage.builder()
                 .original_msg(dto.getMessage())
