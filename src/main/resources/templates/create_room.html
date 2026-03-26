@@ -10,9 +10,9 @@
 <div class="container" th:if="${session.loginUser != null}">
     <div class="phone">
         <div class="card">
-            <div class="title" th:text="${session.loginUser.userName} + '님, 안녕하세요'"></div>
-            <div class="subtitle">채팅방을 만들어 대화를 시작해보세요</div>
-            <div class="divider"></div>
+            <div class="title" th:text="'반가워요,' + ${session.loginUser.userName} + '님'"></div>
+            <div class="subtitle">새 채팅방에서 AI와 함께 <br> 더 완벽한 뉘앙스를 찾아보세요.</div>
+            <div class="divider_short"></div>
             <div class="input-group">
                 <label for="roomName" class="creat_label">채팅방 이름</label>
                 <input type="text" id="roomName" placeholder="방이름을 입력하세요" class="input_create">

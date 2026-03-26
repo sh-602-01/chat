@@ -71,3 +71,35 @@
 a{
     text-decoration: none
 }
+
+.bottom_icon_set{
+    display:flex;
+    border-top:#eee solid 1px;
+    height:60px;
+    justify-content: space-around;
+    align-items: center;
+    position:absolute;
+    left:20px;
+    right:20px;
+    bottom:20px;
+}
+.bottom_icon_set a{
+    display:flex;
+    width:40px;
+    height:40px;
+    align-items: center;
+    justify-content: center;
+}
+.bottom_icon_set a.btn_hidden{
+    visibility: hidden;
+}
+.back_btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:40px;
+    height:40px;
+    position:absolute;
+    left:20px;
+    top:20px;
+}

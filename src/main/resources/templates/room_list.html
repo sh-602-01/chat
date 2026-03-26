@@ -13,9 +13,10 @@
     <div class="card-list-wrap">
         <!-- 채팅방 리스트 -->
         <div class="chat-list">
-            <a href="/create_room" class="create_btn" th:if="${loginUser != null}">
-                <img src="/images/icon_plus.png">
-            </a>
+<!--            <a href="/create_room" class="create_btn" th:if="${loginUser != null}">-->
+<!--                <img src="/images/icon_corner_plus.svg">-->
+<!--            </a>-->
+<!--            <a href="/create_room" class="create_btn" th:if="${loginUser != null}">New</a>-->
             <div class="chat-list-header">
                 <h4>채팅방 목록</h4>
             </div>
@@ -27,6 +28,13 @@
                 </a>
             </div>
         </div>
+    </div>
+    <div class="bottom_icon_set">
+        <a href="/api/login"><img src="/images/back.svg" alt="뒤로"></a>
+        <a href="/index"><img src="/images/home.svg" alt="home"></a>
+        <a href="/create_room" th:classappend="${loginUser == null} ? 'btn_hidden'">
+            <img src="/images/icon_corner_plus.svg" alt="">
+        </a>
     </div>
     <div class="room-modal-overlay" id="modalOverlay" th:if="${loginUser == null}">
         <div class="room-modal-card">
@@ -42,7 +50,7 @@
     const tags = JSON.parse(localStorage.getItem("hashtags")) || [];
     console.log(tags);
     document.getElementById("text").innerHTML =
-         "\""+ tags.join(", ") + "\"" +  " <br> 로 채팅을 시작합니다...";
+         "\""+ tags.join(", ") + "\"" +  " <br> (으)로 채팅을 시작합니다...";
 
     const userId = document.getElementById("user_id").value;
     const modal = document.getElementById('modalOverlay');

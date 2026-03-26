@@ -237,6 +237,13 @@ input::placeholder {
     margin-bottom: 100px;
 }
 
+.divider_short {
+    height: 1px;
+    background: #f1f5f9;
+    margin-bottom: 40px;
+}
+
+
 /* 버튼 그룹 */
 .buttons {
     display: flex;
@@ -275,7 +282,9 @@ input::placeholder {
     position: absolute;
     right: 40px;
     top: 40px;
-    color: #3730a3;
+    color:#2D5BFF;
+    font-weight:bold;
+
 }
 .create_btn img {
     width: 25px;
