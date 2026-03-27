@@ -1,5 +1,6 @@
 package com.smhrd.chat.domain;
 
+import com.smhrd.common.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;

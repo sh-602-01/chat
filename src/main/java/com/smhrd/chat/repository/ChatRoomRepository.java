@@ -1,7 +1,7 @@
 package com.smhrd.chat.repository;
 
 import com.smhrd.chat.domain.ChatRoom;
-import com.smhrd.chat.domain.User;
+import com.smhrd.common.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

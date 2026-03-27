@@ -2,7 +2,7 @@ package com.smhrd.chat.service;
 
 import com.smhrd.chat.domain.ChatMessage;
 import com.smhrd.chat.domain.ChatRoom;
-import com.smhrd.chat.domain.User;
+import com.smhrd.common.domain.User;
 import com.smhrd.chat.dto.ChatMessageDto;
 import com.smhrd.chat.repository.ChatMessageRepository;
 import com.smhrd.chat.repository.ChatRoomRepository;

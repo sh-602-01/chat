@@ -1,10 +1,10 @@
-package com.smhrd.malang.controller.hashtags;
+package com.smhrd.persona.controller.hashtags;
 
-import com.smhrd.malang.domain.Hashtags;
-import com.smhrd.malang.repository.HashtagsRepository;
-import com.smhrd.malang.repository.PersonaTagsRepository;
-import com.smhrd.malang.repository.PersonasRepository;
-import com.smhrd.malang.service.hashtags.HashtagsService;
+import com.smhrd.persona.domain.Hashtags;
+import com.smhrd.persona.repository.HashtagsRepository;
+import com.smhrd.persona.repository.PersonaTagsRepository;
+import com.smhrd.persona.repository.PersonasRepository;
+import com.smhrd.persona.service.hashtags.HashtagsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

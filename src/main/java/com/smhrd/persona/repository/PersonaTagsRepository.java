@@ -1,7 +1,7 @@
-package com.smhrd.malang.repository;
+package com.smhrd.persona.repository;
 
-import com.smhrd.malang.domain.Persona;
-import com.smhrd.malang.domain.Persona_tags;
+import com.smhrd.persona.domain.Persona;
+import com.smhrd.persona.domain.Persona_tags;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

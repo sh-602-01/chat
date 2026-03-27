@@ -1,7 +1,7 @@
 package com.smhrd.chat.controller;
 
 import com.smhrd.chat.domain.ChatRoom;
-import com.smhrd.chat.domain.User;
+import com.smhrd.common.domain.User;
 import com.smhrd.chat.dto.ChatMessageDto;
 import com.smhrd.chat.dto.ChatMsgResponse;
 import com.smhrd.chat.service.ChatRoomService;

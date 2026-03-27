@@ -1,6 +1,6 @@
 package com.smhrd.chat.service;
 
-import com.smhrd.chat.domain.User;
+import com.smhrd.common.domain.User;
 import com.smhrd.chat.dto.CreateUserRequest;
 import com.smhrd.chat.dto.LoginRequest;
 import com.smhrd.chat.repository.UserRepository;

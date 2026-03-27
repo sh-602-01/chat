@@ -1,4 +1,4 @@
-package com.smhrd.malang.dto.personaTags;
+package com.smhrd.persona.dto.personaTags;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,4 +10,5 @@ import java.util.List;
 public class PersonaTagRequestDto {
     private List<Integer> hashtagIds;
     private String personaName;
+    private Long userId;
 }

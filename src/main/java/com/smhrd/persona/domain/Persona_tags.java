@@ -1,4 +1,4 @@
-package com.smhrd.malang.domain;
+package com.smhrd.persona.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,12 +1,14 @@
-package com.smhrd.malang.service.hashtags;
+package com.smhrd.persona.service.hashtags;
 
-import com.smhrd.malang.domain.Hashtags;
-import com.smhrd.malang.domain.Persona;
-import com.smhrd.malang.domain.Persona_tags;
-import com.smhrd.malang.dto.personaTags.PersonaTagRequestDto;
-import com.smhrd.malang.repository.HashtagsRepository;
-import com.smhrd.malang.repository.PersonaTagsRepository;
-import com.smhrd.malang.repository.PersonasRepository;
+import com.smhrd.chat.repository.UserRepository;
+import com.smhrd.common.domain.User;
+import com.smhrd.persona.domain.Hashtags;
+import com.smhrd.persona.domain.Persona;
+import com.smhrd.persona.domain.Persona_tags;
+import com.smhrd.persona.dto.personaTags.PersonaTagRequestDto;
+import com.smhrd.persona.repository.HashtagsRepository;
+import com.smhrd.persona.repository.PersonaTagsRepository;
+import com.smhrd.persona.repository.PersonasRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ public class HashtagsService {
     private final HashtagsRepository hashtagsRepository;
     private final PersonaTagsRepository personaTagsRepository;
     private final PersonasRepository personasRepository;
+    private final UserRepository userRepository;
 
     // 해시태그 저장
     public void saveHashtags(Hashtags hashtags){
@@ -44,9 +47,11 @@ public class HashtagsService {
     @Transactional // 저장하다가 에러나면 취소해주는 라이브러리
     public void savePersonaTags(PersonaTagRequestDto dto){
 
+        User user = userRepository.findById(dto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("유저 없음"));
         // Personas 생성
         Persona persona = new Persona();
-        persona.setUserId(1); // not null이라 임의로 넣음
+        persona.setUser(user); // not null이라 임의로 넣음
         persona.setPersonaName(dto.getPersonaName());
         personasRepository.save(persona);
 

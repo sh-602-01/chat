@@ -1,4 +1,4 @@
-package com.smhrd.chat.domain;
+package com.smhrd.common.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

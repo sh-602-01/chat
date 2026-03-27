@@ -1,6 +1,6 @@
 package com.smhrd.chat.controller;
 
-import com.smhrd.chat.domain.User;
+import com.smhrd.common.domain.User;
 import com.smhrd.chat.service.ChatRoomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

@@ -1,9 +1,9 @@
-package com.smhrd.malang.service.personaTags;
+package com.smhrd.persona.service.personaTags;
 
-import com.smhrd.malang.domain.Persona;
-import com.smhrd.malang.domain.Persona_tags;
-import com.smhrd.malang.repository.PersonaTagsRepository;
-import com.smhrd.malang.repository.PersonasRepository;
+import com.smhrd.persona.domain.Persona;
+import com.smhrd.persona.domain.Persona_tags;
+import com.smhrd.persona.repository.PersonaTagsRepository;
+import com.smhrd.persona.repository.PersonasRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.smhrd.malang.dto.personaTags;
+package com.smhrd.persona.dto.personaTags;
 
-import com.smhrd.malang.domain.Persona;
-import com.smhrd.malang.domain.Persona_tags;
+import com.smhrd.persona.domain.Persona;
+import com.smhrd.persona.domain.Persona_tags;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

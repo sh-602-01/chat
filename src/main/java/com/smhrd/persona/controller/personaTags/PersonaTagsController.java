@@ -1,15 +1,18 @@
-package com.smhrd.malang.controller.personaTags;
+package com.smhrd.persona.controller.personaTags;
 
-import com.smhrd.malang.domain.Hashtags;
-import com.smhrd.malang.domain.Persona;
-import com.smhrd.malang.domain.Persona_tags;
-import com.smhrd.malang.dto.personaTags.PersonaTagRequestDto;
-import com.smhrd.malang.dto.personaTags.PersonaWithTags;
-import com.smhrd.malang.repository.HashtagsRepository;
-import com.smhrd.malang.repository.PersonaTagsRepository;
-import com.smhrd.malang.repository.PersonasRepository;
-import com.smhrd.malang.service.hashtags.HashtagsService;
-import com.smhrd.malang.service.personaTags.PersonaTagsService;
+import com.smhrd.chat.repository.UserRepository;
+import com.smhrd.common.domain.User;
+import com.smhrd.persona.domain.Hashtags;
+import com.smhrd.persona.domain.Persona;
+import com.smhrd.persona.domain.Persona_tags;
+import com.smhrd.persona.dto.personaTags.PersonaTagRequestDto;
+import com.smhrd.persona.dto.personaTags.PersonaWithTags;
+import com.smhrd.persona.repository.HashtagsRepository;
+import com.smhrd.persona.repository.PersonaTagsRepository;
+import com.smhrd.persona.repository.PersonasRepository;
+import com.smhrd.persona.service.hashtags.HashtagsService;
+import com.smhrd.persona.service.personaTags.PersonaTagsService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,25 +31,35 @@ public class PersonaTagsController {
     private final PersonasRepository personasRepository;
     private final HashtagsRepository hashtagsRepository;
     private final PersonaTagsRepository personaTagsRepository;
+    private final UserRepository userRepository;
 
 
     // 페르소나 등록 화면
     @GetMapping("/persona_tags/register")
     public String personaRegisterView(Model model) {
         List<Hashtags> list = hashtagsService.findAll();
+
+        List<String> categories = List.of(
+                "ROLE", "TIME", "PLACE", "SITUATION", "RELATION", "TONE", "EMOTION"
+        );
+
         model.addAttribute("hashtags", list);
+        model.addAttribute("categories", categories);
+
         return "persona_register_view";
     }
 
     // 태그 조합 저장
     @PostMapping("/persona_tags/create")
-    public String createPersonaTags(PersonaTagRequestDto dto){
-        if (dto.getHashtagIds() == null || dto.getHashtagIds().isEmpty()){
-            return "redirect:/persona_tags/register";
+    public String createPersonaTags(PersonaTagRequestDto dto, HttpSession session){
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            throw new IllegalArgumentException("로그인 필요");
         }
 
         Persona persona = new Persona();
-        persona.setUserId(1);
+        persona.setUser(loginUser);
         persona.setPersonaName(dto.getPersonaName());
         persona.setSystemPrompt("기본 system prompt");
         personasRepository.save(persona);
@@ -65,9 +78,14 @@ public class PersonaTagsController {
 
     // 저장된 페르소나 리스트 보기
     @GetMapping("/persona_tags/view")
-    public String viewPersonaTags(Model model){
+    public String viewPersonaTags(Model model, HttpSession session){
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        if (loginUser == null) {
+            throw new IllegalArgumentException("로그인 필요");
+        }
         // 유저 1번의 페르소나 조회
-        List<Persona> personasList = personasRepository.findByUserId(1);
+        List<Persona> personasList = personasRepository.findByUser(loginUser);
 
         // 페르소나별 태그 매핑 로직
         List<PersonaWithTags> personaWithTagsList = personasList.stream().map(persona -> {
