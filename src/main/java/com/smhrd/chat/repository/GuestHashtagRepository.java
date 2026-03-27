@@ -7,6 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GuestHashtagRepository extends JpaRepository<GuestHashTag, Long> {
-    Optional<GuestHashTag> findByname(String name);
-    List<GuestHashTag> findByIsDefaultTrue();
+   List<GuestHashTag> findByIsDefaultTrue();
 }

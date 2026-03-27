@@ -1,6 +1,5 @@
 package com.smhrd.persona.controller.personaTags;
 
-import com.smhrd.chat.repository.UserRepository;
 import com.smhrd.common.domain.User;
 import com.smhrd.persona.domain.Hashtags;
 import com.smhrd.persona.domain.Persona;
@@ -102,7 +101,6 @@ public class PersonaTagsController {
             }
             return ResponseEntity.ok("success"); // 성공 시 200 OK 응답
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("fail");
         }
     }

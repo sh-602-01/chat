@@ -18,9 +18,6 @@ import java.util.List;
 public class HashtagsController {
 
     private final HashtagsService hashtagsService;
-    private final PersonasRepository personasRepository;
-    private final PersonaTagsRepository personaTagsRepository;
-    private final HashtagsRepository hashtagsRepository;
 
 
     // 해시태그 전체 리스트 불러오기

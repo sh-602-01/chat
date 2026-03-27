@@ -82,7 +82,7 @@ function showMessage(message){
     // JSON 데이터의 실제 키값(snake_case)에 맞게 수정
     const msgSenderId   = message.sender_id || message.senderId;
     const msgContent    = message.final_msg || message.message;
-    const msgSenderName = message.sender_name || message.senderName || "알 수 없는 사용자";
+    //const msgSenderName = message.sender_name || message.senderName || "알 수 없는 사용자";
 
     if (msgSenderId == userId) {   // == 사용 (문자열/숫자 대응)
         bubble.className = "bubble sent";
