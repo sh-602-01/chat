@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>페르소나 ID로 해시태그 조회</title>
+</head>
+<body>
+<h2>페르소나 ID로 해시태그 검색</h2>
+
+<form th:action="@{/persona_tags/search}" method="post">
+    <label for="personaId">페르소나 ID 입력:</label>
+    <input type="number" id="personaId" name="personaId" placeholder="예시: 1" required>
+    <button type="submit">검색</button>
+</form>
+
+<hr>
+
+<div th:if="${personaTags}">
+    <h3>조회된 해시태그 목록 (ID: <span th:text="${searchedId}"></span>)</h3>
+
+    <ul th:if="${not #lists.isEmpty(personaTags)}">
+        <li th:each="pt : ${personaTags}">
+            <span th:text="${pt.hashtags.hashtagId}">ID</span>
+            <strong th:text="${pt.hashtags.hashtagName}">Name</strong>
+            <span th:text="${pt.hashtags.category}">Category</span>
+        </li>
+    </ul>
+
+    <p th:if="${#lists.isEmpty(personaTags)}">해당 ID에 연결된 해시태그가 없습니다.</p>
+</div>
+</body>
+</html>

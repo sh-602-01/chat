@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="section">
+    <h2>해시태그 조합하기</h2>
+    <p>목록에서 원하는 태그를 체크하고, 태그 조합을 저장하세요.</p>
+
+    <form th:action="@{/persona_tags/create}" method="post">
+        <div>
+            <h3>역할 - ROLE</h3>
+            <div th:each="tag : ${hashtags}" th:if="${#strings.equals(tag.category, 'ROLE')}">
+                <input type="checkbox" name="hashtagIds" th:value="${tag.hashtagId}" th:id="'tag' + ${tag.hashtagId}">
+                <label th:for="'tag' + ${tag.hashtagId}" th:text="${tag.hashtagName}"></label>
+            </div>
+        </div>
+
+        <br>
+
+        <div>
+            <h3>시간 - TIME</h3>
+            <div th:each="tag : ${hashtags}" th:if="${#strings.equals(tag.category, 'TIME')}">
+                <input type="checkbox" name="hashtagIds" th:value="${tag.hashtagId}" th:id="'tag' + ${tag.hashtagId}">
+                <label th:for="'tag' + ${tag.hashtagId}" th:text="${tag.hashtagName}"></label>
+            </div>
+        </div>
+
+        <br>
+
+        <div>
+            <h3>장소 - PLACE</h3>
+            <div th:each="tag : ${hashtags}" th:if="${#strings.equals(tag.category, 'PLACE')}">
+                <input type="checkbox" name="hashtagIds" th:value="${tag.hashtagId}" th:id="'tag' + ${tag.hashtagId}">
+                <label th:for="'tag' + ${tag.hashtagId}" th:text="${tag.hashtagName}"></label>
+            </div>
+        </div>
+
+        <br>
+
+        <div>
+            <h3>상황 - SITUATION</h3>
+            <div th:each="tag : ${hashtags}" th:if="${#strings.equals(tag.category, 'SITUATION')}">
+                <input type="checkbox" name="hashtagIds" th:value="${tag.hashtagId}" th:id="'tag' + ${tag.hashtagId}">
+                <label th:for="'tag' + ${tag.hashtagId}" th:text="${tag.hashtagName}"></label>
+            </div>
+        </div>
+
+        <br>
+
+        <div>
+            <h3>관계 - RELATION</h3>
+            <div th:each="tag : ${hashtags}" th:if="${#strings.equals(tag.category, 'RELATION')}">
+                <input type="checkbox" name="hashtagIds" th:value="${tag.hashtagId}" th:id="'tag' + ${tag.hashtagId}">
+                <label th:for="'tag' + ${tag.hashtagId}" th:text="${tag.hashtagName}"></label>
+            </div>
+        </div>
+
+        <br>
+
+        <div>
+            <h3>말투 - TONE</h3>
+            <div th:each="tag : ${hashtags}" th:if="${#strings.equals(tag.category, 'TONE')}">
+                <input type="checkbox" name="hashtagIds" th:value="${tag.hashtagId}" th:id="'tag' + ${tag.hashtagId}">
+                <label th:for="'tag' + ${tag.hashtagId}" th:text="${tag.hashtagName}"></label>
+            </div>
+        </div>
+
+        <br>
+
+        <div>
+            <h3>감정 - EMOTION</h3>
+            <div th:each="tag : ${hashtags}" th:if="${#strings.equals(tag.category, 'EMOTION')}">
+                <input type="checkbox" name="hashtagIds" th:value="${tag.hashtagId}" th:id="'tag' + ${tag.hashtagId}">
+                <label th:for="'tag' + ${tag.hashtagId}" th:text="${tag.hashtagName}"></label>
+            </div>
+        </div>
+
+        <div>
+            <label><strong>등록된 태그 조합 이름:</strong> </label>
+            <input type="text" name="personaName" placeholder="예: 김사원에게 온화하면서 단호하게" required>
+            <p><small></small></p>
+        </div>
+
+        <br>
+        <button type="submit" class="btn-save">등록 태그 조합 저장하기</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>해시태그 조합하기</title>
+</head>
+<body>
+<div>
+    <h3>역할 - ROLE</h3>
+    <ul>
+        <li th:each="tag : ${hashtags}"
+            th:if="${#strings.equals(tag.category, 'ROLE')}"
+            th:text="${tag.hashtagName}">
+        </li>
+    </ul>
+
+    <h3>시간 - TIME</h3>
+    <ul>
+        <li th:each="tag : ${hashtags}"
+            th:if="${#strings.equals(tag.category, 'TIME')}"
+            th:text="${tag.hashtagName}">
+        </li>
+    </ul>
+
+    <h3>공간/채널 - PLACE</h3>
+    <ul>
+        <li th:each="tag : ${hashtags}"
+            th:if="${#strings.equals(tag.category, 'PLACE')}"
+            th:text="${tag.hashtagName}">
+        </li>
+    </ul>
+
+    <h3>상황 - SITUATION</h3>
+    <ul>
+        <li th:each="tag : ${hashtags}"
+            th:if="${#strings.equals(tag.category, 'SITUATION')}"
+            th:text="${tag.hashtagName}">
+        </li>
+    </ul>
+
+    <h3>관계 - RELATION</h3>
+    <ul>
+        <li th:each="tag : ${hashtags}"
+            th:if="${#strings.equals(tag.category, 'RELATION')}"
+            th:text="${tag.hashtagName}">
+        </li>
+    </ul>
+
+    <h3>톤 - TONE</h3>
+    <ul>
+        <li th:each="tag : ${hashtags}"
+            th:if="${#strings.equals(tag.category, 'TONE')}"
+            th:text="${tag.hashtagName}">
+        </li>
+    </ul>
+
+    <h3>감정 - EMOTION</h3>
+    <ul>
+        <li th:each="tag : ${hashtags}"
+            th:if="${#strings.equals(tag.category, 'EMOTION')}"
+            th:text="${tag.hashtagName}">
+        </li>
+    </ul>
+</div>
+
+
+</body>
+</html>
