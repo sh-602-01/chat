@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>해시태그 조합하기</title>
@@ -11,9 +11,10 @@
     <p>기존에 등록되어 있지 않은 새로운 태그를 추가합니다.</p>
 
     <form th:action="@{/hashtags/save}" method="post">
-        <input type="text" name="hashtagName" placeholder="태그 이름" required>
-
-        <select name="category" required>
+        <label for="hashTagName">해시태그이름</label>
+        <input type="text" id="hashTagName" name="hashtagName" placeholder="태그 이름" required>
+        <label for="category">카테고리선택</label>
+        <select id="category" name="category" required>
             <option value="" disabled selected>카테고리 선택</option>
             <option value="ROLE">ROLE (역할)</option>
             <option value="TIME">TIME (시간)</option>
