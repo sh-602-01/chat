@@ -4,9 +4,13 @@ import com.smhrd.common.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity(name="personas")
 @Getter
 @Setter
@@ -31,4 +35,7 @@ public class Persona {
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "personas", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Persona_tags> tags = new ArrayList<>();
 }

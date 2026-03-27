@@ -9,20 +9,29 @@
 <body>
 <div class="persona-wrapper">
     <div id="finalSelectionScreen">
-        <div class="card" th:each="item : ${personaWithTagsList}">
-            <div>
-                <h2 class="final-title" th:text="${item.personas.personaName}"></h2>
-                <div class="final-tags" th:if="${#lists.size(item.tags) > 0}">
-                <span th:each="tag : ${item.tags}"
-                      th:text="'#'+ ${tag.hashtags.hashtagName} + ' '">
-                    태그명 (카테고리)
-                </span>
-                </div>
-                <div th:if="${#lists.size(item.tags) == 0}">
-                    <p>등록된 태그가 없습니다.</p>
-                </div>
+        <div class="card" th:each="item : ${personaWithTagsList}"
+             th:attr="data-persona-id=${item.personas.personaId}">
+            <h2 class="final-title" th:text="${item.personas.personaName}"></h2>
+            <div class="final-tags" th:if="${#lists.size(item.tags) > 0}">
+        <span th:each="tag : ${item.tags}" class="tag-span"
+              th:text="'#'+ ${tag.hashtags.hashtagName} + ' '">
+        </span>
             </div>
+            <div th:if="${#lists.size(item.tags) == 0}">
+                <p>등록된 태그가 없습니다.</p>
+            </div>
+
             <button class="start-btn" onclick="startChat()">이 페르소나 장착!</button>
+            <div class="del-modify-btn">
+                <a href="#" class="delete-btn" th:onclick="'deletePersona(' + ${item.personas.personaId} + ')'" >
+                    <img src="/images/User_profile_minus.svg" alt="삭제">
+                    <span>삭제</span>
+                </a>
+                <a th:href="@{/persona_tags/register(personaId=${item.personas.personaId})}" class="modify-btn">
+                    <img src="/images/User_profile_talk.svg" alt="수정">
+                    <span>수정</span>
+                </a>
+            </div>
         </div>
         <div class="no-persona" th:if="${#lists.isEmpty(personaWithTagsList)}">
             <p>등록된 페르소나가 없습니다. <br> 먼저 페르소나를 등록해 주세요!</p>
@@ -36,6 +45,24 @@
     function startChat() {
         location = "/room_list"
     }
+
+    function deletePersona(personaId) {
+        if (!confirm("정말 이 페르소나를 삭제하시겠습니까?")) return;
+
+        fetch('/persona/' + personaId, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if(response.ok){
+                    alert("삭제되었습니다.");
+                    location.reload(); // 화면 새로고침
+                } else {
+                    alert("삭제 실패!");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
 </script>
 </body>
 </html>

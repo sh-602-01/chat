@@ -8,110 +8,92 @@
 </head>
 <body>
 <div class="persona-wrapper">
-    <div class="pc-container" id="configScreen">
+    <div class="pc-container">
         <div class="header">
-            <h2>해시태그 고르기</h2>
-            <p>비즈니스 목적에 맞는 최적화된 태그 조합을 선택해 주세요.</p>
+            <h2 th:text="${persona != null ? '페르소나 수정하기' : '해시태그 고르기'}"></h2>
         </div>
-        <form th:action="@{/persona_tags/create}" method="post">
-            <div class="tag-grid">
 
-                <div class="tag-section" th:each="category : ${categories}">
-                    <span class="tag-title" th:text="|${category}|"></span>
+        <input type="hidden" id="personaId" th:value="${persona?.personaId}">
 
-                    <!-- container는 1번만 -->
-                    <div class="tag-container" th:classappend="' ' + ${category}">
-
-                        <!-- 여기서만 반복 -->
-                        <th:block th:each="tag : ${hashtags}">
-                            <th:block th:if="${#strings.equals(tag.category, category)}">
-
-                                <input type="checkbox"
-                                       name="hashtagIds"
-                                       th:value="${tag.hashtagId}"
-                                       th:data-name="${tag.hashtagName}"
-                                       th:id="'tag' + ${tag.hashtagId}">
-
-                                <label class="tag-label"
-                                       th:for="'tag' + ${tag.hashtagId}"
-                                       th:text="${tag.hashtagName}">
-                                </label>
-
-                            </th:block>
+        <div class="tag-grid">
+            <div class="tag-section" th:each="category : ${categories}">
+                <span class="tag-title" th:text="${category}"></span>
+                <div class="tag-container" th:classappend="${category}">
+                    <th:block th:each="tag : ${hashtags}">
+                        <th:block th:if="${#strings.equals(tag.category, category)}">
+                            <input type="checkbox"
+                                   name="hashtagIds"
+                                   th:value="${tag.hashtagId}"
+                                   th:id="'tag' + ${tag.hashtagId}"
+                                   th:checked="${selectedTagIds != null and selectedTagIds.contains(tag.hashtagId)}">
+                            <label class="tag-label" th:for="'tag' + ${tag.hashtagId}" th:text="${tag.hashtagName}"></label>
                         </th:block>
-
-                    </div>
+                    </th:block>
                 </div>
-
             </div>
+        </div>
 
-            <div class="footer-action">
-                <span class="selected-count" id="countText">선택된 태그: 0개</span>
-                <input type="text" name="personaName" id="userName" class="name-input" placeholder="조합명을 입력하세요 (예: 김대리)" required>
-                <button class="submit-tags" onclick="collectTags()">조합 만들기</button>
-            </div>
-            <!--        <div>-->
-            <!--            <label><strong>등록된 태그 조합 이름:</strong> </label>-->
-            <!--            <input type="text" name="personaName" placeholder="예: 김사원에게 온화하면서 단호하게" required>-->
-            <!--            <p><small></small></p>-->
-            <!--        </div>-->
-
-            <div class="persona-section" id="personaSection">
-                <hr style="border:0; height:2px; background:#f1f3f5; margin-bottom:40px;">
-                <h3>생성된 AI 페르소나</h3>
-                <div class="persona-list" id="personaList"></div>
-            </div>
-            <!--        <button type="submit" class="btn-save">등록 태그 조합 저장하기</button>-->
-        </form>
+        <div class="footer-action">
+            <input type="text" id="personaName" class="name-input"
+                   th:value="${persona?.personaName}" placeholder="조합명을 입력하세요" required>
+            <button type="button" class="submit-tags" onclick="savePersona()">이 조합 사용</button>
+        </div>
     </div>
 </div>
 <div id="finalSelectionScreen"></div>
 <script>
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const countText = document.getElementById('countText');
+    // const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    // const countText = document.getElementById('countText');
+    //
+    // checkboxes.forEach(cb => {
+    //     cb.addEventListener('change', () => {
+    //         const count = document.querySelectorAll('input[type="checkbox"]:checked').length;
+    //         countText.innerText = `선택된 태그: ${count}개`;
+    //     });
+    // });
 
-    checkboxes.forEach(cb => {
-        cb.addEventListener('change', () => {
-            const count = document.querySelectorAll('input[type="checkbox"]:checked').length;
-            countText.innerText = `선택된 태그: ${count}개`;
-        });
-    });
+    async function savePersona() {
+        const personaId = document.getElementById('personaId').value;
+        const personaName = document.getElementById('personaName').value;
 
-    // 1단계: 이름과 태그 수집
-    function collectTags() {
-        const name = document.getElementById('userName').value.trim();
-        const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked')
-        const selectedValues = Array.from(checkedBoxes).map(box => box.dataset.name);
+        // 체크된 태그 ID 배열로 수집
+        const hashtagIds = Array.from(document.querySelectorAll('input[name="hashtagIds"]:checked'))
+            .map(cb => parseInt(cb.value));
 
-        if (!name) {
-            alert("조합명을 입력해 주세요!");
+        if (!personaName) {
+            alert("페르소나 이름을 입력해주세요.");
             return;
         }
-        if (selectedValues.length === 0) {
-            alert("태그를 하나 이상 선택해 주세요!");
-            return;
+
+        const data = {
+            personaName: personaName,
+            hashtagIds: hashtagIds,
+            systemPrompt: "기본 시스템 프롬프트" // 필요시 입력창 만들어 연동
+        };
+
+        // ID가 있으면 PUT(수정), 없으면 POST(등록)
+        const isUpdate = personaId !== "";
+        const url = isUpdate ? `/persona/${personaId}` : '/persona_tags/create';
+        const method = isUpdate ? 'PUT' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method: method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert(isUpdate ? "수정되었습니다." : "등록되었습니다.");
+                location.href = "/persona_tags/view";
+            } else {
+                alert("처리 중 오류가 발생했습니다.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("서버 통신 오류");
         }
-
-        const personaSection = document.getElementById('personaSection');
-        const personaList = document.getElementById('personaList');
-        personaList.innerHTML = '';
-        personaSection.style.display = 'block';
-
-        const tagStr = selectedValues.map(v => "#" + v).join(" ");
-
-        const card = document.createElement('div');
-        card.className = 'persona-card';
-        card.innerHTML = `
-                <div class="card-name">${name}</div>
-                <div class="card-tags">${tagStr}</div>
-                <p class="card-desc">선택하신 태그를 기반으로 맞춤형 페르소나가 생성되었습니다.</p>
-                <button class="btn-register" onclick="showFinalSelection('${name}', '${tagStr}')">이 페르소나로 등록</button>
-            `;
-
-        personaList.appendChild(card);
-        setTimeout(() => { personaSection.scrollIntoView({ behavior: 'smooth' }); }, 100);
     }
-
 
 </script>
 </body>

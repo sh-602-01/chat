@@ -8,6 +8,7 @@ import java.util.List;
 @Setter
 @Getter
 public class PersonaTagRequestDto {
+    private String systemPrompt;
     private List<Integer> hashtagIds;
     private String personaName;
     private Long userId;
