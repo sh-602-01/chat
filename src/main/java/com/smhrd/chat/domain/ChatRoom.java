@@ -1,5 +1,6 @@
 package com.smhrd.chat.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.smhrd.common.domain.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,7 @@ public class ChatRoom {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "create_by") // DB 컬럼명을 create_by로 지정
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User creator; // 변수명은 의미를 담아 creator 또는 user로 설정
 
     @CreatedDate //날짜생성
