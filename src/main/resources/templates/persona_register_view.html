@@ -20,7 +20,7 @@
                 <span class="tag-title" th:text="${category.value}"></span>
                 <div class="tag-container" th:classappend="${category.key}">
                     <th:block th:each="tag : ${hashtags}">
-                        <th:block th:if="${#strings.trim(tag.category).equalsIgnoreCase(#strings.trim(category.key))}">
+                        <th:block th:if="${tag.category != null and tag.category.name().equalsIgnoreCase(category.key)}">
                             <input type="checkbox"
                                    name="hashtagIds"
                                    th:value="${tag.hashtagId}"
