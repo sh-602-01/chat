@@ -88,31 +88,32 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.ROLE input:checked+.tag-label {
+.role input:checked+.tag-label {
     background-color: #7C73FF;
 }
 
-.TIME input:checked+.tag-label {
+.time input:checked+.tag-label {
     background-color: #4A90E2;
 }
 
-.SITUATION input:checked+.tag-label {
+.situation input:checked+.tag-label {
     background-color: #FF7E67;
 }
-
-.RELATION input:checked+.tag-label {
+.place input:checked+.tag-label {
     background-color: #4CD964;
 }
-.TONE input:checked+.tag-label {
+
+.relation input:checked+.tag-label {
     background-color: #7C73FF;
 }
-
-.EMOTION input:checked+.tag-label {
+.tone input:checked+.tag-label {
     background-color: #4A90E2;
 }
-.PLACE input:checked+.tag-label {
-    background-color: #FF7E67;
+
+.emotion input:checked+.tag-label {
+    background-color: #4CD964;
 }
+
 
 
 /* [í•˜ë‹¨ ì•¡ì…˜ ì˜ì—­: ì´ë¦„ ìž…ë ¥ ì¶”ê°€] */
@@ -284,7 +285,7 @@
 }
 
 .start-btn {
-    background-color: #7d7dff;
+    background-color: #2D5BFF;
     color: #ffffff;
     border: none;
     border-radius: 16px;
@@ -301,6 +302,7 @@
     flex-direction: column;
     justify-content: center;
     gap: 40px;
+    text-align: center;
 }
 .no-persona .btn-register{
     width: auto;
@@ -332,6 +334,6 @@
     font-size: 12px;
 }
 .del-modify-btn img{
-    width:24px;
+    width:54px;
     height:24px;
 }

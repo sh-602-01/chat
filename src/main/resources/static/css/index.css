@@ -16,7 +16,7 @@ body {
     align-items: center;
 }
 
-/* 2. 메인 블루 카드 (기존 크기 340px 유지) */
+/* 2. ë©”ì¸ ë¸”ë£¨ ì¹´ë“œ (ê¸°ì¡´ í¬ê¸° 340px ìœ ì§€) */
 .center-card {
     width: 360px;
     height: 720px;
@@ -35,11 +35,11 @@ body {
 .logo-area {
     text-align: center;
     color: white;
-    margin-bottom: 150px;
+    margin-bottom: 70px;
 }
 
 .simbol_img {
-    width: 150px;
+    width: 120px;
 }
 
 .title {
@@ -80,7 +80,7 @@ body {
     line-height: 1.3;
 }
 
-/* 3. 태그 입력 모달 (입력 칸을 넓게 수정) */
+/* 3. íƒœê·¸ ìž…ë ¥ ëª¨ë‹¬ (ìž…ë ¥ ì¹¸ì„ ë„“ê²Œ ìˆ˜ì •) */
 .modal-overlay {
     position: absolute;
     top: 0;
@@ -95,7 +95,7 @@ body {
     display:none;
 }
 
-/* [수정] 모달창 전체 너비를 420px로 넓힘 */
+/* [ìˆ˜ì •] ëª¨ë‹¬ì°½ ì „ì²´ ë„ˆë¹„ë¥¼ 420pxë¡œ ë„“íž˜ */
 .modal-card {
     background-color: white;
     width: 300px;
@@ -112,7 +112,7 @@ body {
     color: #222;
 }
 
-/* [핵심 수정] 태그가 표시되는 영역 - 좌우 패딩을 줄여 더 넓게 사용 */
+/* [í•µì‹¬ ìˆ˜ì •] íƒœê·¸ê°€ í‘œì‹œë˜ëŠ” ì˜ì—­ - ì¢Œìš° íŒ¨ë”©ì„ ì¤„ì—¬ ë” ë„“ê²Œ ì‚¬ìš© */
 .text-display {
     border-radius: 20px;
     text-align: left;
@@ -138,7 +138,7 @@ body {
     cursor: pointer;
 }
 
-/* 입력란 */
+/* ìž…ë ¥ëž€ */
 .tag-input-wrapper {
     background: #F1F3F5;
     border-radius: 12px;
@@ -183,7 +183,7 @@ body {
     color: white;
 }
 
-/* 4. 좌측 하단 아이콘 */
+/* 4. ì¢Œì¸¡ í•˜ë‹¨ ì•„ì´ì½˜ */
 .left-icons {
     position: absolute;
     bottom: 30px;

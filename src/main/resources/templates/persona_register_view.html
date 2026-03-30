@@ -10,17 +10,17 @@
 <div class="persona-wrapper">
     <div class="pc-container">
         <div class="header">
-            <h2 th:text="${persona != null ? '페르소나 수정하기' : '해시태그 고르기'}"></h2>
+            <h2 th:text="${persona != null ? '말랑이 반죽하기' : '말랑이 만들기'}"></h2>
         </div>
 
         <input type="hidden" id="personaId" th:value="${persona?.personaId}">
 
         <div class="tag-grid">
             <div class="tag-section" th:each="category : ${categories}">
-                <span class="tag-title" th:text="${category}"></span>
-                <div class="tag-container" th:classappend="${category}">
+                <span class="tag-title" th:text="${category.value}"></span>
+                <div class="tag-container" th:classappend="${category.key}">
                     <th:block th:each="tag : ${hashtags}">
-                        <th:block th:if="${#strings.equals(tag.category, category)}">
+                        <th:block th:if="${#strings.trim(tag.category).equalsIgnoreCase(#strings.trim(category.key))}">
                             <input type="checkbox"
                                    name="hashtagIds"
                                    th:value="${tag.hashtagId}"
@@ -35,8 +35,8 @@
 
         <div class="footer-action">
             <input type="text" id="personaName" class="name-input"
-                   th:value="${persona?.personaName}" placeholder="조합명을 입력하세요" required>
-            <button type="button" class="submit-tags" onclick="savePersona()">이 조합 사용</button>
+                   th:value="${persona?.personaName}" placeholder="말랑이 이름을 입력하세요" required>
+            <button type="button" class="submit-tags" onclick="savePersona()">이 말랑이 사용</button>
         </div>
     </div>
 </div>

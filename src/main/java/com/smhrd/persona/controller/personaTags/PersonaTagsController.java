@@ -20,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -35,7 +37,17 @@ public class PersonaTagsController {
     @GetMapping("/persona_tags/register")
     public String personaRegisterView(@RequestParam(value = "personaId", required = false) Integer personaId, Model model) {
         List<Hashtags> list = hashtagsService.findAll();
-        List<String> categories = List.of("ROLE", "TIME", "PLACE", "SITUATION", "RELATION", "TONE", "EMOTION");
+
+        // DB의 category 값(Key) : 화면에 보여줄 이름(Value)
+        // DB에 저장된 실제 영문 값을 Key에 넣으세요 (예: target, time, place 등)
+        Map<String, String> categories = new LinkedHashMap<>();
+        categories.put("role", "대상");
+        categories.put("time", "시간");
+        categories.put("place", "장소");
+        categories.put("situation", "상황");
+        categories.put("relation", "관계");
+        categories.put("tone", "톤");
+        categories.put("emotion", "감정");
 
         if (personaId != null) {
             // 수정 모드: 기존 데이터 조회

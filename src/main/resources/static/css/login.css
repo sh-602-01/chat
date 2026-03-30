@@ -273,8 +273,8 @@ input::placeholder {
 }
 
 .chat {
-    background: #bbf7d0;
-    color: #166534;
+    background: #2D5BFF;
+    color: #ffffff;
 }
 
 .create_btn {
@@ -309,8 +309,8 @@ input::placeholder {
     font-size: 12px;
 }
 .persona_btn_set img{
-    width:24px;
-    height:24px;
+    width:50px;
+    height:34px;
 }
 /* 호버 */
 .buttons a:hover {

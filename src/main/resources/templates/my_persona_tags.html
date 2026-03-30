@@ -21,21 +21,21 @@
                 <p>등록된 태그가 없습니다.</p>
             </div>
 
-            <button class="start-btn" onclick="startChat()">이 페르소나 장착!</button>
+            <button class="start-btn" onclick="startChat()">이 말랑이 장착!</button>
             <div class="del-modify-btn">
                 <a href="#" class="delete-btn" th:onclick="'deletePersona(' + ${item.personas.personaId} + ')'" >
-                    <img src="/images/User_profile_minus.svg" alt="삭제">
+                    <img src="/images/icon_create.svg" alt="삭제">
                     <span>삭제</span>
                 </a>
                 <a th:href="@{/persona_tags/register(personaId=${item.personas.personaId})}" class="modify-btn">
-                    <img src="/images/User_profile_talk.svg" alt="수정">
+                    <img src="/images/icon_modify.svg" alt="수정">
                     <span>수정</span>
                 </a>
             </div>
         </div>
         <div class="no-persona" th:if="${#lists.isEmpty(personaWithTagsList)}">
-            <p>등록된 페르소나가 없습니다. <br> 먼저 페르소나를 등록해 주세요!</p>
-            <a href="persona_tags/register" class="btn-register">페르소나 등록하기</a>
+            <p>등록된 말랑이가 없습니다. <br> 먼저 말랑이를 만들어 주세요!</p>
+            <a href="/persona_tags/register" class="btn-register">말랑이 만들기</a>
         </div>
     </div>
 
