@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.smhrd.admin.dto.ChatMessageListResponse;
 import com.smhrd.admin.repository.ChatLogRepository;
-import com.smhrd.chat.domain.ChatMessage;
+import com.smhrd.chat.domain.ChatMessages;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,7 +32,7 @@ public class ChatLogService {
      * 특정 메시지 상세 조회
      */
     public ChatMessageListResponse findByMsgId(Long msgId) {
-        ChatMessage message = chatLogRepository.findById(msgId)
+        ChatMessages message = chatLogRepository.findById(msgId)
                 .orElseThrow(() -> new RuntimeException("해당 메시지를 찾을 수 없습니다. ID: " + msgId));
         return convertToDto(message);
     }
@@ -40,16 +40,16 @@ public class ChatLogService {
     /**
      * Entity -> DTO 변환 로직
      */
-    private ChatMessageListResponse convertToDto(ChatMessage chatMessage) {
+    private ChatMessageListResponse convertToDto(ChatMessages chatMessages) {
     return ChatMessageListResponse.builder()
-            .msgId(chatMessage.getMsgId())
-            .roomId(chatMessage.getChatRoom() != null ? chatMessage.getChatRoom().getRoomId() : null)
-            .senderId(chatMessage.getUser() != null ? chatMessage.getUser().getUserId() : "Unknown")
-            .originalMsg(chatMessage.getOriginal_msg()) // Entity의 getter 확인
-            .finalMsg(chatMessage.getFinal_msg())
-            .explanation(chatMessage.getExplanation())
-            .personaId(chatMessage.getPersona_id())
-            .createdAt(chatMessage.getCreatedAt())
+            .msgId(chatMessages.getMsgId())
+            .roomId(chatMessages.getChatRoom() != null ? chatMessages.getChatRoom().getRoomId() : null)
+            .senderId(chatMessages.getUser() != null ? chatMessages.getUser().getUserId() : "Unknown")
+            .originalMsg(chatMessages.getOriginal_msg()) // Entity의 getter 확인
+            .finalMsg(chatMessages.getFinal_msg())
+            .explanation(chatMessages.getExplanation())
+            .personaId(chatMessages.getPersona_id())
+            .createdAt(chatMessages.getCreatedAt())
             .build();
 }
 

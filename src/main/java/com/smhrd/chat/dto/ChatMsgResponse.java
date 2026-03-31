@@ -1,6 +1,6 @@
 package com.smhrd.chat.dto;
 
-import com.smhrd.chat.domain.ChatMessage;
+import com.smhrd.chat.domain.ChatMessages;
 import lombok.Getter;
 
 @Getter
@@ -10,7 +10,7 @@ public class ChatMsgResponse {
     private String sender_name;
     private String final_msg;
 
-    public ChatMsgResponse(ChatMessage message){
+    public ChatMsgResponse(ChatMessages message){
         this.msgId = message.getMsgId();
 
         if (message.getUser() != null) {

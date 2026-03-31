@@ -1,15 +1,9 @@
-
-        /* ê¸°ë³¸ í°íŠ¸ ë° ë°°ê²½ ì„¤ì • */
-        /* body {
-            margin: 0;
-            font-family: 'Pretendard', 'NanumSquareRound', sans-serif;
-            
-            background: #F0F4FF;
-           
-            color: #333;
-        } */
-
-        /* í—¤ë” ìŠ¤íƒ€ì¼ */
+        html,body{
+            height:100%;
+        }
+        .content{
+            min-height: 100%;
+        }
         .header {
             height: 60px;
             line-height: 60px;
@@ -43,24 +37,25 @@
         }
 
         .menu {
+            display: block;
             padding: 15px 20px;
             cursor: pointer;
             border-radius: 15px;
-            /* ë©”ë‰´ ë‘¥ê¸€ê²Œ */
             margin-bottom: 8px;
             transition: all 0.3s ease;
-            font-weight: 500;
+            font-weight: 700;
             opacity: 0.8;
+            color:#fff;
+            text-decoration: none;
         }
 
         .menu:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255);
+            color:#2D5BFF;
             opacity: 1;
         }
-
         .menu.active {
             background: white;
-            /* í™œì„± ë©”ë‰´ëŠ” í°ìƒ‰ ë°°ê²½ */
             color: #2D5BFF;
             font-weight: bold;
             opacity: 1;
@@ -115,11 +110,10 @@
             border-color: #2D5BFF;
         }
 
-        /* í…Œì´ë¸” ë¦¬ë‰´ì–¼ */
+
         .table-container {
             background: white;
             border-radius: 20px;
-            /* padding: 15px; */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         }
 
@@ -127,14 +121,13 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            /* í–‰ ì‚¬ì´ ê°„ê²© */
         }
 
         th {
             background: #F8FAFF;
             color: #666;
             font-weight: 600;
-            padding: 10px;
+            padding: 5px 10px;
             border-bottom: none;
             text-align: center;
         }
@@ -207,7 +200,6 @@
             color: white;
         }
 
-        /* ëª¨ë‹¬ ìŠ¤íƒ€ì¼ */
         .modal-content {
             border-radius: 25px;
             padding: 30px;
@@ -218,4 +210,20 @@
         .pagination{
             width: 100%;
             padding:15px;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table td.td_left {
+            text-align: left;
+        }
+
+        .msg-content {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }

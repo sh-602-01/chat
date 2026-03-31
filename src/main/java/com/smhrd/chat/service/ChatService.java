@@ -1,6 +1,6 @@
 package com.smhrd.chat.service;
 
-import com.smhrd.chat.domain.ChatMessage;
+import com.smhrd.chat.domain.ChatMessages;
 import com.smhrd.chat.domain.ChatRoom;
 import com.smhrd.common.domain.User;
 import com.smhrd.chat.dto.ChatMessageDto;
@@ -24,7 +24,7 @@ public class ChatService {
     private final ChatRoomService chatRoomService;
     private final ChatRoomRepository chatRoomRepository;
 
-    public ChatMessage save(ChatMessageDto dto){
+    public ChatMessages save(ChatMessageDto dto){
 
         ChatRoom room = chatRoomService.findById(dto.getRoomId());
         User user = null;
@@ -34,7 +34,7 @@ public class ChatService {
                     .orElse(null);
         }
 
-        ChatMessage message = ChatMessage.builder()
+        ChatMessages message = ChatMessages.builder()
                 .original_msg(dto.getMessage())
                 .corrected_msg(dto.getMessage())
                 .final_msg(dto.getMessage())
@@ -44,19 +44,19 @@ public class ChatService {
                 .chatRoom(room)
                 .build();
 
-        ChatMessage saved = chatMessageRepository.save(message);
+        ChatMessages saved = chatMessageRepository.save(message);
         room.setLastMessage(saved.getFinal_msg()); // 또는 getOriginal_msg()
         room.setLastMessageTime(saved.getCreatedAt());
         chatRoomRepository.save(room);
         return saved;
     }
 
-    public List<ChatMessage> findByRoom(Long roomId){
+    public List<ChatMessages> findByRoom(Long roomId){
         ChatRoom room = chatRoomService.findById(roomId);
         return chatMessageRepository.findByChatRoomOrderByMsgIdDesc(room);
     }
 
-    public List<ChatMessage> findRecent10(){
+    public List<ChatMessages> findRecent10(){
         Pageable topTen = PageRequest.of(0, 10, Sort.by("msgId").descending());
         return chatMessageRepository.findAll(topTen).getContent();
     }

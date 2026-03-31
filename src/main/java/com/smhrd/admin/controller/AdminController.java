@@ -17,7 +17,7 @@ public class AdminController {
     // 유저 등록 페이지 이동
     @GetMapping("/users/save")
     public String saveForm() {
-        return "user_save_admin";
+        return "/admin/user_save";
     }
 
     // 유저 등록 실행
@@ -31,7 +31,7 @@ public class AdminController {
     @GetMapping("/users")
      public String userList(Model model){
         model.addAttribute("users", adminService.findAllUsers());
-        return "user_list_admin";
+        return "/admin/user_list";
     }
 
     // 유저 삭제
