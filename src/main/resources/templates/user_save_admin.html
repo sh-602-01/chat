@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 - 유저 등록</title>
+</head>
+<body>
+<h3>새 유저 등록</h3>
+<form action="/admin/users/save" method="post">
+    <div>아이디: <input name="userId" required></div>
+    <div>비밀번호: <input name="password" type="password" required></div>
+    <div>이름: <input name="userName" required></div>
+    <div>출근시간: <input type="time" name="workStartTime"></div>
+    <div>퇴근시간: <input type="time" name="workEndTime"></div>
+    <br>
+    <button type="submit">등록하기</button>
+    <button type="button" onclick="location.href='/admin/users'">취소(목록으로)</button>
+</form>
+</body>
+</html>
