@@ -31,11 +31,21 @@ function connect() {
     stompClient.connect({}, function(frame){
         console.log("✅ 연결 성공:", frame);
         // WebSocket 구독
-        stompClient.subscribe("/topic/messages/" + roomId, function(message){
-            // 🔥 내가 보낸 메시지는 무시
-            if (data.sender_name === userId || data.senderId === userId) {
+        stompClient.subscribe("/topic/messages/" + roomId, function(message) {
+            // 1. 서버에서 받은 JSON 문자열을 객체로 변환
+            const data = JSON.parse(message.body);
+
+            console.log("받은 메시지 데이터:", data);
+
+            // 2. 내가 보낸 메시지인지 확인 (중복 출력 방지)
+            // 서버에서 보내주는 필드명(senderId 또는 sender_id 등)을 정확히 확인하세요.
+            const msgSenderId = data.senderId || data.sender_id;
+
+            if (msgSenderId == userId) {
                 return;
             }
+
+            // 3. 화면에 표시
             showMessage(data);
         });
         // 기존 메시지 불러오기
@@ -52,6 +62,7 @@ function sendMsg() {
 
     showMessage({
         senderId: userId,
+        senderName: "나",
         message: message
     });
 
@@ -72,26 +83,37 @@ document.getElementById("chatInput").addEventListener("keyup", function(e) {
     }
 });
 
-
-function showMessage(message){
-    //console.log(message)
-    console.log("🔥 화면 출력 들어옴:", message);
+function showMessage(message) {
+    console.log("🔥 화면 출력 데이터:", message);
     const chat = document.getElementById("chat");
     const bubble = document.createElement("div");
 
-    // JSON 데이터의 실제 키값(snake_case)에 맞게 수정
-    const msgSenderId   = message.sender_id || message.senderId;
-    const msgContent    = message.final_msg || message.message;
-    //const msgSenderName = message.sender_name || message.senderName || "알 수 없는 사용자";
+    // 데이터 키값 추출 (서버 필드명에 맞춰 유연하게 대응)
+    const msgSenderId = message.senderId || message.sender_id;
+    const msgContent = message.message || message.final_msg;
+    const msgSenderName = message.senderName || message.sender_name || "익명";
 
-    if (msgSenderId == userId) {   // == 사용 (문자열/숫자 대응)
+    // 1. 이름을 담을 span 생성
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "user-name";
+
+    // 2. 메시지 내용을 담을 p 생성
+    const contentP = document.createElement("p");
+    contentP.className = "user-msg";
+    contentP.innerText = msgContent;
+
+    if (msgSenderId == userId) {
         bubble.className = "bubble sent";
-        bubble.innerText = "(나) " + msgContent;
+        nameSpan.innerText = "(나)";
     } else {
         bubble.className = "bubble received";
-        bubble.innerText = msgContent;
+        nameSpan.innerText = msgSenderName;
     }
 
+    // bubble 안에 span과 p를 순서대로 추가
+    bubble.appendChild(nameSpan);
+    bubble.appendChild(contentP);
+
     chat.appendChild(bubble);
-    chat.scrollTop = chat.scrollHeight; // 새 메시지 오면 스크롤 하단으로
+    chat.scrollTop = chat.scrollHeight; // 스크롤 하단 이동
 }

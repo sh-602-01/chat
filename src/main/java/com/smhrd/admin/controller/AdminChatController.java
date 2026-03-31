@@ -20,9 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/admin/chat")
 @RequiredArgsConstructor
 public class AdminChatController {
-
     private final ChatLogService chatLogService;
-
     @GetMapping("/list")
     public String getChatLogList(
             @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,

@@ -11,9 +11,7 @@ import jakarta.servlet.http.HttpSession;
 @RequiredArgsConstructor
 @Controller
 public class ChatRoomViewController {
-
     private final ChatRoomService service;
-
     @GetMapping("/create_room")
     public String createRoomPage() {
         return "create_room";

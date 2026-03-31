@@ -256,6 +256,9 @@
     justify-content: space-between;
     transition: all 0.3s ease;
 }
+.dotted{
+    border:#9ca3af dotted 2px;
+}
 
 .card:hover {
     transform: translateY(-8px);
@@ -294,6 +297,18 @@
     font-weight: 700;
     cursor: pointer;
     width: 100%;
+    transition: 0.2s;
+}
+.create-btn {
+    background-color: #2D9E56;
+    color: #ffffff;
+    border: none;
+    border-radius: 16px;
+    padding: 18px 0;
+    font-size: 16px;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
     transition: 0.2s;
 }
 

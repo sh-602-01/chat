@@ -79,10 +79,8 @@
 <script>
     // 현재 페이지의 path
     const currentPath = window.location.pathname;
-
     // 모든 사이드바 메뉴 가져오기
     const menuLinks = document.querySelectorAll('.sidebar .menu');
-
     menuLinks.forEach(link => {
         // 링크의 href가 현재 경로와 일치하면 active 클래스 추가
         if (currentPath === link.getAttribute('href') ||

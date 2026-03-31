@@ -9,21 +9,17 @@
 <body>
 <div class="persona-wrapper">
     <div id="finalSelectionScreen">
-        <div class="card" th:each="item : ${personaWithTagsList}"
-             th:attr="data-persona-id=${item.personas.personaId}">
+        <div class="card" th:each="item : ${personaWithTagsList}" th:attr="data-persona-id=${item.personas.personaId}">
             <h2 class="final-title" th:text="${item.personas.personaName}"></h2>
             <div class="final-tags" th:if="${#lists.size(item.tags) > 0}">
-        <span th:each="tag : ${item.tags}" class="tag-span"
-              th:text="'#'+ ${tag.hashtags.hashtagName} + ' '">
-        </span>
+                <span th:each="tag : ${item.tags}" class="tag-span" th:text="'#'+ ${tag.hashtags.hashtagName} + ' '"></span>
             </div>
             <div th:if="${#lists.size(item.tags) == 0}">
                 <p>등록된 태그가 없습니다.</p>
             </div>
-
             <button class="start-btn" onclick="startChat()">이 말랑이 장착!</button>
             <div class="del-modify-btn">
-                <a href="#" class="delete-btn" th:onclick="'deletePersona(' + ${item.personas.personaId} + ')'" >
+                <a href="#" class="delete-btn" th:onclick="'deletePersona(' + ${item.personas.personaId} + ')'">
                     <img src="/images/icon_create.svg" alt="삭제">
                     <span>삭제</span>
                 </a>
@@ -32,6 +28,15 @@
                     <span>수정</span>
                 </a>
             </div>
+        </div>
+        <div class="card dotted">
+            <h2 class="final-title">새 말랑이 조합</h2>
+            <div class="final-tags">
+                <span>#새로운</span>
+                <span>#말랑이</span>
+                <span>#만들자!!</span>
+            </div>
+            <a href="/persona_tags/register" class="create-btn">말랑이 만들러 가기</a>
         </div>
         <div class="no-persona" th:if="${#lists.isEmpty(personaWithTagsList)}">
             <p>등록된 말랑이가 없습니다. <br> 먼저 말랑이를 만들어 주세요!</p>
@@ -53,7 +58,7 @@
             method: 'DELETE'
         })
             .then(response => {
-                if(response.ok){
+                if (response.ok) {
                     alert("삭제되었습니다.");
                     location.reload(); // 화면 새로고침
                 } else {
